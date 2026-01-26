@@ -45,7 +45,55 @@
                             <div class="stat-label">Unseen</div>
                         </div>
                     </div>
-                    <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.9em;" onclick="clearAllStats()">Clear Stats</button>
+                    <button class="btn btn-secondary btn-clear" style="padding: 8px 16px; font-size: 0.9em;" onclick="clearAllStats()">Clear Stats</button>
+                </div>
+
+                <div class="belts-display">
+                    <h4>Belt Ranks</h4>
+                    <div class="belts-grid">
+                        <div class="belt-item">
+                            <div class="belt-item-indicator belt-gokyu"></div>
+                            <div class="belt-item-info">
+                                <div class="belt-item-name">5th Kyu</div>
+                                <div class="belt-item-color">Yellow</div>
+                            </div>
+                        </div>
+                        <div class="belt-item disabled">
+                            <div class="belt-item-indicator belt-yonkyu"></div>
+                            <div class="belt-item-info">
+                                <div class="belt-item-name">4th Kyu</div>
+                                <div class="belt-item-color">Orange</div>
+                            </div>
+                        </div>
+                        <div class="belt-item disabled">
+                            <div class="belt-item-indicator belt-sankyu"></div>
+                            <div class="belt-item-info">
+                                <div class="belt-item-name">3rd Kyu</div>
+                                <div class="belt-item-color">Green</div>
+                            </div>
+                        </div>
+                        <div class="belt-item disabled">
+                            <div class="belt-item-indicator belt-nikyu"></div>
+                            <div class="belt-item-info">
+                                <div class="belt-item-name">2nd Kyu</div>
+                                <div class="belt-item-color">Blue</div>
+                            </div>
+                        </div>
+                        <div class="belt-item disabled">
+                            <div class="belt-item-indicator belt-ikkyu"></div>
+                            <div class="belt-item-info">
+                                <div class="belt-item-name">1st Kyu</div>
+                                <div class="belt-item-color">Brown</div>
+                            </div>
+                        </div>
+                        <div class="belt-item disabled">
+                            <div class="belt-item-indicator belt-shodan"></div>
+                            <div class="belt-item-info">
+                                <div class="belt-item-name">1st Dan</div>
+                                <div class="belt-item-color">Black</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -58,9 +106,9 @@
             </div>
 
             <div class="controls">
-                <button class="btn btn-secondary" onclick="goBack()">Back</button>
-                <button class="btn btn-secondary" onclick="loadCards()">Shuffle</button>
-                <button class="btn btn-secondary" onclick="resetProgress()">Reset</button>
+                <button class="btn btn-secondary btn-back" onclick="goBack()">Back</button>
+                <button class="btn btn-secondary btn-shuffle" onclick="loadCards()">Shuffle</button>
+                <button class="btn btn-secondary btn-reset" onclick="resetProgress()">Reset</button>
             </div>
 
             <div id="loading" class="loading">Loading flashcards...</div>
