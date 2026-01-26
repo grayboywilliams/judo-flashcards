@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <title>Judo Study Flashcards</title>
+    <title>Judo Study - Gokyu (Yellow Belt)</title>
     <style>
         * {
             margin: 0;
@@ -367,13 +367,13 @@
         <!-- Landing Page -->
         <div id="landing" class="landing">
             <h1>Judo Study</h1>
-            <p>Master judo terminology and techniques!</p>
+            <p>Gokyu (Yellow Belt)</p>
 
             <div class="category-select">
                 <select id="category">
                     <option value="all">All</option>
-                    <option value="study/judo_recite.csv">Recite</option>
-                    <option value="study/judo_perform.csv">Perform</option>
+                    <option value="recite">Recite</option>
+                    <option value="perform">Perform</option>
                 </select>
 
                 <button class="btn" onclick="startPractice()">Start Practice</button>
@@ -406,8 +406,8 @@
         <!-- Flashcards Page -->
         <div id="flashcards" class="flashcards">
             <div class="header">
-                <h1>Judo Study</h1>
-                <p id="category-name">All Judo Terms</p>
+                <h1>Gokyu (Yellow Belt)</h1>
+                <p id="category-name">All</p>
             </div>
 
             <div class="controls">
@@ -461,17 +461,35 @@
 
         const STORAGE_KEY = 'judo_flashcard_stats';
 
-        const categoryNames = {
-            'all': 'All',
-            'study/judo_recite.csv': 'Recite',
-            'study/judo_perform.csv': 'Perform'
+        // Belt configuration - extensible for future ranks
+        const belts = {
+            gokyu: {
+                name: 'Gokyu (Yellow Belt)',
+                path: 'study/gokyu',
+                files: {
+                    recite: 'recite.csv',
+                    perform: 'perform.csv'
+                }
+            }
+            // Future belts can be added here:
+            // yonkyu: { name: 'Yonkyu (Orange Belt)', path: 'study/yonkyu', files: { ... } }
         };
 
-        const categoryFiles = {
-            'all': ['study/judo_recite.csv', 'study/judo_perform.csv'],
-            'study/judo_recite.csv': ['study/judo_recite.csv'],
-            'study/judo_perform.csv': ['study/judo_perform.csv']
+        const currentBelt = 'gokyu';
+
+        const categoryNames = {
+            'all': 'All',
+            'recite': 'Recite',
+            'perform': 'Perform'
         };
+
+        function getCategoryFiles(category) {
+            const belt = belts[currentBelt];
+            if (category === 'all') {
+                return Object.values(belt.files).map(f => `${belt.path}/${f}`);
+            }
+            return [`${belt.path}/${belt.files[category]}`];
+        }
 
         // Load stats from localStorage
         function loadStats() {
@@ -522,7 +540,7 @@
 
         // Update landing page stats summary
         async function updateLandingStats() {
-            const allFiles = ['study/judo_recite.csv', 'study/judo_perform.csv'];
+            const allFiles = getCategoryFiles('all');
             const stats = loadStats();
             let totalCorrect = 0;
             let totalWrong = 0;
@@ -575,7 +593,7 @@
 
         async function loadCards() {
             try {
-                const files = categoryFiles[currentCategory];
+                const files = getCategoryFiles(currentCategory);
                 const stats = loadStats();
                 flashcards = [];
 
