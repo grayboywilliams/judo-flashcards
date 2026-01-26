@@ -261,11 +261,40 @@ async function updateLandingStats() {
 // ============================================================================
 
 /**
+ * Select a belt and update UI
+ * @param {string} beltKey - Belt identifier
+ */
+function selectBelt(beltKey) {
+    // Remove selected class from all belts
+    document.querySelectorAll('.belt-option').forEach(option => {
+        option.classList.remove('selected');
+    });
+    
+    // Add selected class to clicked belt
+    const selectedBelt = document.querySelector(`[data-belt="${beltKey}"]`);
+    if (selectedBelt && !selectedBelt.classList.contains('disabled')) {
+        selectedBelt.classList.add('selected');
+        
+        // Update mini belt indicators on category buttons
+        const beltClass = belts[beltKey].cssClass;
+        document.querySelectorAll('.belt-mini').forEach(mini => {
+            // Remove all belt classes
+            Object.values(belts).forEach(belt => {
+                mini.classList.remove(belt.cssClass);
+            });
+            // Add selected belt class
+            mini.classList.add(beltClass);
+        });
+    }
+}
+
+/**
  * Start practice session with selected category
  * Switches from landing page to flashcard view
+ * @param {string} category - Category type: 'all', 'recite', or 'perform'
  */
-function startPractice() {
-    currentCategory = document.getElementById('category').value;
+function startPractice(category) {
+    currentCategory = category;
     document.getElementById('landing').style.display = 'none';
     document.getElementById('flashcards').style.display = 'block';
     document.getElementById('category-name').textContent = categoryNames[currentCategory];
@@ -588,3 +617,6 @@ document.addEventListener('keydown', function(event) {
  * Loads and displays landing page statistics
  */
 updateLandingStats();
+
+// Select first belt by default
+selectBelt('gokyu');

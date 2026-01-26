@@ -12,25 +12,82 @@
         <!-- Landing Page -->
         <div id="landing" class="landing">
             <h1>Judo Flashcards</h1>
+            
+            <div class="category-info">
+                Click to flip, then mark correct or wrong!
+            </div>
 
-            <div class="category-select">
-                <div class="belt-selector">
-                    <div class="belt-indicator belt-gokyu" id="belt-indicator" title="Yellow Belt"></div>
-                    <select id="category">
-                        <option value="all">All</option>
-                        <option value="recite">Recite</option>
-                        <option value="perform">Perform</option>
-                    </select>
+            <div class="study-options">
+                <h3>Select Belt & Category</h3>
+                
+                <!-- Belt Options -->
+                <div class="belt-options">
+                    <div class="belt-option" data-belt="gokyu" onclick="selectBelt('gokyu')">
+                        <div class="belt-option-indicator belt-gokyu"></div>
+                        <div class="belt-option-info">
+                            <div class="belt-option-name">5th Kyu</div>
+                            <div class="belt-option-color">Yellow</div>
+                        </div>
+                    </div>
+                    <div class="belt-option disabled" data-belt="yonkyu">
+                        <div class="belt-option-indicator belt-yonkyu"></div>
+                        <div class="belt-option-info">
+                            <div class="belt-option-name">4th Kyu</div>
+                            <div class="belt-option-color">Orange</div>
+                        </div>
+                    </div>
+                    <div class="belt-option disabled" data-belt="sankyu">
+                        <div class="belt-option-indicator belt-sankyu"></div>
+                        <div class="belt-option-info">
+                            <div class="belt-option-name">3rd Kyu</div>
+                            <div class="belt-option-color">Green</div>
+                        </div>
+                    </div>
+                    <div class="belt-option disabled" data-belt="nikyu">
+                        <div class="belt-option-indicator belt-nikyu"></div>
+                        <div class="belt-option-info">
+                            <div class="belt-option-name">2nd Kyu</div>
+                            <div class="belt-option-color">Blue</div>
+                        </div>
+                    </div>
+                    <div class="belt-option disabled" data-belt="ikkyu">
+                        <div class="belt-option-indicator belt-ikkyu"></div>
+                        <div class="belt-option-info">
+                            <div class="belt-option-name">1st Kyu</div>
+                            <div class="belt-option-color">Brown</div>
+                        </div>
+                    </div>
+                    <div class="belt-option disabled" data-belt="shodan">
+                        <div class="belt-option-indicator belt-shodan"></div>
+                        <div class="belt-option-info">
+                            <div class="belt-option-name">1st Dan</div>
+                            <div class="belt-option-color">Black</div>
+                        </div>
+                    </div>
                 </div>
 
-                <button class="btn" onclick="startPractice()">Start Practice</button>
-
-                <div class="category-info">
-                    Click to flip, then mark correct or wrong!
+                <!-- Category Buttons -->
+                <div class="category-buttons">
+                    <button class="category-btn" data-category="all" onclick="startPractice('all')">
+                        <span class="category-icon">📚</span>
+                        <span class="category-text">All</span>
+                        <div class="belt-mini belt-gokyu" id="belt-all"></div>
+                    </button>
+                    <button class="category-btn" data-category="recite" onclick="startPractice('recite')">
+                        <span class="category-icon">🗣️</span>
+                        <span class="category-text">Recite</span>
+                        <div class="belt-mini belt-gokyu" id="belt-recite"></div>
+                    </button>
+                    <button class="category-btn" data-category="perform" onclick="startPractice('perform')">
+                        <span class="category-icon">🥋</span>
+                        <span class="category-text">Perform</span>
+                        <div class="belt-mini belt-gokyu" id="belt-perform"></div>
+                    </button>
                 </div>
 
+                <!-- Stats Summary -->
                 <div class="stats-summary" id="stats-summary">
-                    <h3>Your Progress</h3>
+                    <h4>Your Progress</h4>
                     <div class="stats-row">
                         <div class="stat-item">
                             <div class="stat-value stat-correct" id="total-correct">0</div>
@@ -45,55 +102,7 @@
                             <div class="stat-label">Unseen</div>
                         </div>
                     </div>
-                    <button class="btn btn-secondary btn-clear" style="padding: 8px 16px; font-size: 0.9em;" onclick="clearAllStats()">Clear Stats</button>
-                </div>
-
-                <div class="belts-display">
-                    <h4>Belt Ranks</h4>
-                    <div class="belts-grid">
-                        <div class="belt-item">
-                            <div class="belt-item-indicator belt-gokyu"></div>
-                            <div class="belt-item-info">
-                                <div class="belt-item-name">5th Kyu</div>
-                                <div class="belt-item-color">Yellow</div>
-                            </div>
-                        </div>
-                        <div class="belt-item disabled">
-                            <div class="belt-item-indicator belt-yonkyu"></div>
-                            <div class="belt-item-info">
-                                <div class="belt-item-name">4th Kyu</div>
-                                <div class="belt-item-color">Orange</div>
-                            </div>
-                        </div>
-                        <div class="belt-item disabled">
-                            <div class="belt-item-indicator belt-sankyu"></div>
-                            <div class="belt-item-info">
-                                <div class="belt-item-name">3rd Kyu</div>
-                                <div class="belt-item-color">Green</div>
-                            </div>
-                        </div>
-                        <div class="belt-item disabled">
-                            <div class="belt-item-indicator belt-nikyu"></div>
-                            <div class="belt-item-info">
-                                <div class="belt-item-name">2nd Kyu</div>
-                                <div class="belt-item-color">Blue</div>
-                            </div>
-                        </div>
-                        <div class="belt-item disabled">
-                            <div class="belt-item-indicator belt-ikkyu"></div>
-                            <div class="belt-item-info">
-                                <div class="belt-item-name">1st Kyu</div>
-                                <div class="belt-item-color">Brown</div>
-                            </div>
-                        </div>
-                        <div class="belt-item disabled">
-                            <div class="belt-item-indicator belt-shodan"></div>
-                            <div class="belt-item-info">
-                                <div class="belt-item-name">1st Dan</div>
-                                <div class="belt-item-color">Black</div>
-                            </div>
-                        </div>
-                    </div>
+                    <button class="btn btn-secondary btn-clear" onclick="clearAllStats()">Clear Stats</button>
                 </div>
             </div>
         </div>
