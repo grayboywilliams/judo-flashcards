@@ -132,6 +132,7 @@ body {
 
 select {
     flex: 1;
+    min-width: 0;
     padding: 15px 20px;
     font-size: 1.1em;
     border: 3px solid #ffd700;
@@ -139,6 +140,7 @@ select {
     background: rgba(255, 255, 255, 0.95);
     color: #333;
     cursor: pointer;
+    max-width: 100%;
 }
 
 select:focus {
@@ -479,6 +481,17 @@ select:focus {
    RESPONSIVE DESIGN
    ============================================================================ */
 
+@media (max-width: 768px) {
+    .selector-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .category-select {
+        padding: 30px 20px;
+    }
+}
+
 @media (max-width: 480px) {
     .landing h1 {
         font-size: 2.2em;
@@ -486,6 +499,24 @@ select:focus {
     
     .header h1 {
         font-size: 1.8em;
+    }
+    
+    .selector-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .category-select {
+        padding: 25px 15px;
+    }
+    
+    select {
+        font-size: 0.95em;
+        padding: 12px 15px;
+    }
+    
+    .belt-indicator {
+        width: 40px;
+        height: 16px;
     }
     
     .flashcard {
