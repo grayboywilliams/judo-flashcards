@@ -255,41 +255,40 @@
             content: "correct/wrong: ";
         }
 
-        .guess-input {
-            width: 100%;
-            max-width: 300px;
-            background: #dedede;
-            padding: 15px;
-            font-size: 1.2em;
-            text-align: center;
-            border: 3px solid #e63946;
-            border-radius: 8px;
+        .mark-buttons {
+            display: flex;
+            gap: 15px;
             margin-top: 30px;
-            outline: none;
         }
 
-        .guess-input:focus {
-            border-color: #a8201a;
-        }
-
-        .feedback {
-            margin-top: 20px;
-            padding: 15px 30px;
+        .mark-btn {
+            padding: 12px 30px;
+            font-size: 1.1em;
+            border: none;
             border-radius: 8px;
-            font-size: 1.3em;
             font-weight: bold;
-            text-transform: uppercase;
-            display: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        .feedback.correct {
-            background: rgba(76, 217, 100, 0.9);
+        .mark-btn.correct {
+            background: #4cd964;
             color: white;
         }
 
-        .feedback.incorrect {
-            background: rgba(255, 59, 48, 0.9);
+        .mark-btn.correct:hover {
+            background: #3cb853;
+            transform: scale(1.05);
+        }
+
+        .mark-btn.wrong {
+            background: #ff3b30;
             color: white;
+        }
+
+        .mark-btn.wrong:hover {
+            background: #e0342b;
+            transform: scale(1.05);
         }
 
         .progress {
@@ -372,14 +371,15 @@
 
             <div class="category-select">
                 <select id="category">
-                    <option value="study/judo_recite.csv">All Judo Terms</option>
+                    <option value="all">All</option>
+                    <option value="study/judo_recite.csv">Recite</option>
+                    <option value="study/judo_perform.csv">Perform</option>
                 </select>
 
                 <button class="btn" onclick="startPractice()">Start Practice</button>
-                <button class="btn" onclick="startPractice('weak')">Focus Weak Cards</button>
 
                 <div class="category-info">
-                    Type your answer and press Enter to check!
+                    Click to flip, then mark correct or wrong!
                 </div>
 
                 <div class="stats-summary" id="stats-summary">
@@ -430,13 +430,15 @@
                     <div class="flashcard" id="flashcard" onclick="handleCardClick(event)">
                         <div class="card-face card-front">
                             <div class="card-stats" id="card-stats-front"></div>
-                            <div class="front-text" id="front-text">Click "Shuffle" to begin!</div>
-                            <input type="text" class="guess-input" id="guess-input" autocomplete="off" placeholder="Type your answer...">
+                            <div class="front-text" id="front-text">Click to flip!</div>
                         </div>
                         <div class="card-face card-back">
                             <div class="card-stats-back" id="card-stats-back"></div>
                             <div class="back-text" id="back-text">ANSWER</div>
-                            <div id="feedback" class="feedback"></div>
+                            <div class="mark-buttons" id="mark-buttons">
+                                <button class="mark-btn correct" onclick="markAnswer(true, event)">Correct</button>
+                                <button class="mark-btn wrong" onclick="markAnswer(false, event)">Wrong</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -454,14 +456,21 @@
         let flashcards = [];
         let currentIndex = 0;
         let isFlipped = false;
-        let currentFile = 'study/judo_recite.csv';
-        let studyMode = 'shuffle'; // 'shuffle' or 'weak'
+        let currentCategory = 'all';
         let hasAnsweredCurrent = false;
 
         const STORAGE_KEY = 'judo_flashcard_stats';
 
         const categoryNames = {
-            'study/judo_recite.csv': 'All Judo Terms'
+            'all': 'All',
+            'study/judo_recite.csv': 'Recite',
+            'study/judo_perform.csv': 'Perform'
+        };
+
+        const categoryFiles = {
+            'all': ['study/judo_recite.csv', 'study/judo_perform.csv'],
+            'study/judo_recite.csv': ['study/judo_recite.csv'],
+            'study/judo_perform.csv': ['study/judo_perform.csv']
         };
 
         // Load stats from localStorage
@@ -512,15 +521,18 @@
         }
 
         // Update landing page stats summary
-        function updateLandingStats() {
-            fetch(currentFile)
-                .then(r => r.text())
-                .then(csvText => {
+        async function updateLandingStats() {
+            const allFiles = ['study/judo_recite.csv', 'study/judo_perform.csv'];
+            const stats = loadStats();
+            let totalCorrect = 0;
+            let totalWrong = 0;
+            let totalUnseen = 0;
+
+            for (const file of allFiles) {
+                try {
+                    const response = await fetch(file);
+                    const csvText = await response.text();
                     const lines = csvText.split('\n');
-                    const stats = loadStats();
-                    let totalCorrect = 0;
-                    let totalWrong = 0;
-                    let totalUnseen = 0;
 
                     for (let i = 1; i < lines.length; i++) {
                         const line = lines[i].trim();
@@ -537,19 +549,21 @@
                             }
                         }
                     }
+                } catch (e) {
+                    console.error('Error loading stats for', file, e);
+                }
+            }
 
-                    document.getElementById('total-correct').textContent = totalCorrect;
-                    document.getElementById('total-wrong').textContent = totalWrong;
-                    document.getElementById('total-unseen').textContent = totalUnseen;
-                });
+            document.getElementById('total-correct').textContent = totalCorrect;
+            document.getElementById('total-wrong').textContent = totalWrong;
+            document.getElementById('total-unseen').textContent = totalUnseen;
         }
 
-        function startPractice(mode = 'shuffle') {
-            studyMode = mode;
-            currentFile = document.getElementById('category').value;
+        function startPractice() {
+            currentCategory = document.getElementById('category').value;
             document.getElementById('landing').style.display = 'none';
             document.getElementById('flashcards').style.display = 'block';
-            document.getElementById('category-name').textContent = categoryNames[currentFile];
+            document.getElementById('category-name').textContent = categoryNames[currentCategory];
             loadCards();
         }
 
@@ -561,41 +575,33 @@
 
         async function loadCards() {
             try {
-                const response = await fetch(currentFile);
-                const csvText = await response.text();
-                const lines = csvText.split('\n');
-
-                flashcards = [];
+                const files = categoryFiles[currentCategory];
                 const stats = loadStats();
+                flashcards = [];
 
-                for (let i = 1; i < lines.length; i++) {
-                    const line = lines[i].trim();
-                    if (line) {
-                        const values = parseCSVLine(line);
-                        if (values.length >= 2) {
-                            const cardStats = stats[values[0]] || { correct: 0, wrong: 0 };
-                            flashcards.push({
-                                front: values[0],
-                                back: values[1],
-                                correct: cardStats.correct,
-                                wrong: cardStats.wrong
-                            });
+                for (const file of files) {
+                    const response = await fetch(file);
+                    const csvText = await response.text();
+                    const lines = csvText.split('\n');
+
+                    for (let i = 1; i < lines.length; i++) {
+                        const line = lines[i].trim();
+                        if (line) {
+                            const values = parseCSVLine(line);
+                            if (values.length >= 2) {
+                                const cardStats = stats[values[0]] || { correct: 0, wrong: 0 };
+                                flashcards.push({
+                                    front: values[0],
+                                    back: values[1],
+                                    correct: cardStats.correct,
+                                    wrong: cardStats.wrong
+                                });
+                            }
                         }
                     }
                 }
 
-                if (studyMode === 'weak') {
-                    // Sort by weakness score: more wrong answers and fewer correct = higher priority
-                    // Unseen cards get medium priority
-                    flashcards.sort((a, b) => {
-                        const scoreA = a.wrong - a.correct + (a.correct + a.wrong === 0 ? 0.5 : 0);
-                        const scoreB = b.wrong - b.correct + (b.correct + b.wrong === 0 ? 0.5 : 0);
-                        return scoreB - scoreA;
-                    });
-                } else {
-                    shuffleArray(flashcards);
-                }
-
+                shuffleArray(flashcards);
                 currentIndex = 0;
                 hasAnsweredCurrent = false;
                 document.getElementById('loading').style.display = 'none';
@@ -603,7 +609,6 @@
                 updateCard();
                 updateProgress();
                 updateNavigation();
-                focusInput();
             } catch (error) {
                 console.error('Error loading flashcards:', error);
                 document.getElementById('loading').innerHTML = 'Error loading flashcards.';
@@ -637,60 +642,40 @@
             }
         }
 
-        function focusInput() {
-            setTimeout(() => {
-                const input = document.getElementById('guess-input');
-                if (input) input.focus();
-            }, 100);
+        function flipToBack() {
+            if (!isFlipped) {
+                document.getElementById('flashcard').classList.add('flipped');
+                isFlipped = true;
+            }
         }
 
-        function normalizeAnswer(str) {
-            return str.toLowerCase()
-                .replace(/['']/g, "'")
-                .replace(/[""]/g, '"')
-                .replace(/\s+/g, ' ')
-                .trim();
-        }
-
-        function checkAnswer() {
-            const input = document.getElementById('guess-input');
-            const guess = normalizeAnswer(input.value);
-            const card = flashcards[currentIndex];
-            const feedbackEl = document.getElementById('feedback');
-            const correctAnswer = normalizeAnswer(card.back);
-
-            const isCorrect = guess === correctAnswer;
-
-            // Only record answer once per card view
-            if (!hasAnsweredCurrent) {
-                recordAnswer(card.front, isCorrect);
-                hasAnsweredCurrent = true;
-                // Update local card stats
-                if (isCorrect) {
-                    card.correct++;
-                } else {
-                    card.wrong++;
-                }
-                updateCardStatsDisplay();
+        function markAnswer(isCorrect, event) {
+            if (event) event.stopPropagation();
+            if (hasAnsweredCurrent) {
+                nextCard();
+                return;
             }
 
-            feedbackEl.textContent = isCorrect ? 'Correct!' : 'Incorrect';
-            feedbackEl.className = 'feedback ' + (isCorrect ? 'correct' : 'incorrect');
-            feedbackEl.style.display = 'block';
+            const card = flashcards[currentIndex];
+            recordAnswer(card.front, isCorrect);
+            hasAnsweredCurrent = true;
 
-            document.getElementById('flashcard').classList.add('flipped');
-            isFlipped = true;
+            // Update local card stats
+            if (isCorrect) {
+                card.correct++;
+            } else {
+                card.wrong++;
+            }
+            updateCardStatsDisplay();
+
+            // Auto-advance to next card
+            setTimeout(() => nextCard(), 300);
         }
 
         function updateCard() {
             if (flashcards.length === 0) return;
 
             const flashcard = document.getElementById('flashcard');
-            const input = document.getElementById('guess-input');
-            const feedbackEl = document.getElementById('feedback');
-
-            input.value = '';
-            feedbackEl.style.display = 'none';
             hasAnsweredCurrent = false;
 
             if (isFlipped) {
@@ -698,11 +683,9 @@
                 isFlipped = false;
                 setTimeout(() => {
                     updateCardContent();
-                    focusInput();
                 }, 600);
             } else {
                 updateCardContent();
-                focusInput();
             }
         }
 
@@ -722,16 +705,12 @@
 
         function flipCard() {
             const flashcard = document.getElementById('flashcard');
-            const input = document.getElementById('guess-input');
 
             if (!isFlipped) {
-                checkAnswer();
+                flipToBack();
             } else {
                 flashcard.classList.remove('flipped');
                 isFlipped = false;
-                input.value = '';
-                document.getElementById('feedback').style.display = 'none';
-                focusInput();
             }
         }
 
@@ -774,27 +753,37 @@
         }
 
         function handleCardClick(event) {
-            if (event.target.id === 'guess-input') return;
+            // Don't flip if clicking on mark buttons
+            if (event.target.classList.contains('mark-btn')) return;
             if (!isFlipped) {
-                checkAnswer();
-            } else {
-                nextCard();
+                flipToBack();
             }
         }
 
         document.addEventListener('keydown', function(event) {
             if (document.getElementById('flashcards').style.display === 'block') {
-                if (event.key === 'Enter') {
+                if (event.key === ' ' || event.key === 'Enter') {
                     event.preventDefault();
                     if (!isFlipped) {
-                        checkAnswer();
-                    } else {
-                        nextCard();
+                        flipToBack();
                     }
                 } else if (event.key === 'ArrowLeft') {
                     previousCard();
                 } else if (event.key === 'ArrowRight') {
-                    nextCard();
+                    if (isFlipped && !hasAnsweredCurrent) {
+                        // Skip without marking (treat as wrong for weak mode purposes)
+                        markAnswer(false);
+                    } else {
+                        nextCard();
+                    }
+                } else if (event.key === '1' || event.key === 'c') {
+                    if (isFlipped && !hasAnsweredCurrent) {
+                        markAnswer(true);
+                    }
+                } else if (event.key === '2' || event.key === 'w') {
+                    if (isFlipped && !hasAnsweredCurrent) {
+                        markAnswer(false);
+                    }
                 }
             } else if (event.key === 'Enter') {
                 startPractice();
