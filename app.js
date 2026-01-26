@@ -282,6 +282,14 @@ function updateBeltIndicator() {
  * Switches from landing page to flashcard view
  */
 function startPractice() {
+    const selectedBelt = document.getElementById('belt-select').value;
+    
+    // Check if belt is implemented
+    if (selectedBelt !== 'gokyu') {
+        alert('This belt rank is not implemented yet. Please select 5th Kyu - Yellow.');
+        return;
+    }
+    
     currentCategory = document.getElementById('category').value;
     document.getElementById('landing').style.display = 'none';
     document.getElementById('flashcards').style.display = 'block';
