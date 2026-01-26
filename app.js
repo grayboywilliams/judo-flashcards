@@ -286,7 +286,7 @@ function startPractice() {
     
     // Check if belt is implemented
     if (selectedBelt !== 'gokyu') {
-        alert('This belt rank is not implemented yet. Please select 5th Kyu - Yellow.');
+        alert('This belt rank is not implemented yet.');
         return;
     }
     
