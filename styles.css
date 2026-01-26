@@ -1,0 +1,456 @@
+/**
+ * Judo Flashcards - Main Stylesheet
+ * A modern, responsive design for the flashcard study application
+ */
+
+/* ============================================================================
+   RESET & BASE STYLES
+   ============================================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    width: 100%;
+}
+
+/* ============================================================================
+   LANDING PAGE STYLES
+   ============================================================================ */
+
+.landing {
+    text-align: center;
+}
+
+.landing h1 {
+    color: white;
+    font-size: 3em;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.landing p {
+    color: white;
+    font-size: 1.2em;
+    opacity: 0.9;
+    margin-bottom: 50px;
+}
+
+.category-select {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.belt-selector {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.belt-indicator {
+    width: 120px;
+    height: 20px;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.4);
+    flex-shrink: 0;
+}
+
+/* ============================================================================
+   BELT COLORS
+   ============================================================================ */
+
+.belt-gokyu {
+    background: linear-gradient(180deg, #ffd700 0%, #e6c200 50%, #ccac00 100%);
+    border: 1px solid #b8960a;
+}
+
+.belt-yonkyu {
+    background: linear-gradient(180deg, #ff8c00 0%, #e67300 50%, #cc6600 100%);
+    border: 1px solid #b35900;
+}
+
+.belt-sankyu {
+    background: linear-gradient(180deg, #228b22 0%, #1e7b1e 50%, #196619 100%);
+    border: 1px solid #145214;
+}
+
+.belt-nikyu {
+    background: linear-gradient(180deg, #4169e1 0%, #3a5ecc 50%, #3253b3 100%);
+    border: 1px solid #2a4799;
+}
+
+.belt-ikkyu {
+    background: linear-gradient(180deg, #8b4513 0%, #7a3d11 50%, #69340e 100%);
+    border: 1px solid #5a2d0c;
+}
+
+.belt-shodan {
+    background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 50%, #0a0a0a 100%);
+    border: 1px solid #000;
+}
+
+/* ============================================================================
+   FORM ELEMENTS
+   ============================================================================ */
+
+select {
+    flex: 1;
+    padding: 15px 20px;
+    font-size: 1.1em;
+    border: 3px solid #ffd700;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    cursor: pointer;
+}
+
+select:focus {
+    outline: none;
+    border-color: #e6c200;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+}
+
+.btn {
+    padding: 15px 40px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #ffd700 0%, #e6c200 100%);
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    margin: 5px;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+/* ============================================================================
+   STATISTICS DISPLAY
+   ============================================================================ */
+
+.category-info {
+    margin-top: 20px;
+    color: white;
+    font-size: 0.95em;
+    opacity: 0.9;
+}
+
+.stats-summary {
+    margin-top: 25px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: white;
+}
+
+.stats-summary h3 {
+    margin-bottom: 10px;
+    font-size: 1em;
+}
+
+.stats-row {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.stat-label {
+    font-size: 0.8em;
+    opacity: 0.8;
+}
+
+.stat-correct { color: #4cd964; }
+.stat-wrong { color: #ff6b6b; }
+.stat-unseen { color: #a0a0a0; }
+
+/* ============================================================================
+   FLASHCARD VIEW
+   ============================================================================ */
+
+.flashcards {
+    display: none;
+}
+
+.header {
+    text-align: center;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 2.2em;
+    margin-bottom: 5px;
+}
+
+.header p {
+    font-size: 1em;
+    opacity: 0.9;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.controls .btn {
+    padding: 10px 20px;
+    font-size: 1em;
+}
+
+/* ============================================================================
+   FLASHCARD COMPONENT
+   ============================================================================ */
+
+.flashcard-container {
+    perspective: 1000px;
+    margin-bottom: 20px;
+}
+
+.flashcard {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    cursor: pointer;
+}
+
+.flashcard.flipped {
+    transform: rotateY(180deg);
+}
+
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    text-align: center;
+}
+
+.card-front {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    color: #1a1a2e;
+}
+
+.card-back {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    color: #1a1a2e;
+    transform: rotateY(180deg);
+}
+
+.front-text {
+    font-size: 1.6em;
+    line-height: 1.4;
+    font-weight: 500;
+}
+
+.back-text {
+    font-size: 2em;
+    font-weight: bold;
+    line-height: 1.3;
+}
+
+.card-stats {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 0.8em;
+    opacity: 0.6;
+    color: #666;
+}
+
+.card-stats::before {
+    content: "correct/wrong: ";
+}
+
+.card-stats-back {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 0.8em;
+    opacity: 0.9;
+}
+
+.card-stats-back::before {
+    content: "correct/wrong: ";
+}
+
+/* ============================================================================
+   ANSWER MARKING
+   ============================================================================ */
+
+.mark-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.mark-btn {
+    padding: 12px 30px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mark-btn.correct {
+    background: #4cd964;
+    color: white;
+}
+
+.mark-btn.correct:hover {
+    background: #3cb853;
+    transform: scale(1.05);
+}
+
+.mark-btn.wrong {
+    background: #ff3b30;
+    color: white;
+}
+
+.mark-btn.wrong:hover {
+    background: #e0342b;
+    transform: scale(1.05);
+}
+
+/* ============================================================================
+   PROGRESS INDICATORS
+   ============================================================================ */
+
+.progress {
+    text-align: center;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ffd700 0%, #ffeb3b 100%);
+    transition: width 0.3s ease;
+    border-radius: 4px;
+}
+
+/* ============================================================================
+   NAVIGATION
+   ============================================================================ */
+
+.navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.navigation .btn {
+    padding: 12px 25px;
+    font-size: 1em;
+}
+
+/* ============================================================================
+   LOADING STATE
+   ============================================================================ */
+
+.loading {
+    text-align: center;
+    color: white;
+    font-size: 1.2em;
+}
+
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================ */
+
+@media (max-width: 480px) {
+    .landing h1 {
+        font-size: 2.2em;
+    }
+    
+    .header h1 {
+        font-size: 1.8em;
+    }
+    
+    .flashcard {
+        height: 300px;
+    }
+    
+    .front-text {
+        font-size: 1.3em;
+    }
+    
+    .back-text {
+        font-size: 1.5em;
+    }
+    
+    .navigation .btn {
+        padding: 10px 15px;
+        font-size: 0.9em;
+    }
+    
+    .controls {
+        gap: 6px;
+    }
+    
+    .controls .btn {
+        padding: 8px 10px;
+        font-size: 0.75em;
+    }
+}

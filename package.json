@@ -1,0 +1,53 @@
+{
+  "name": "judo-flashcards",
+  "version": "1.0.0",
+  "description": "A modern, interactive flashcard application for studying judo techniques and terminology across different belt ranks",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "serve": "npx serve .",
+    "test": "echo \"No tests configured yet\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/judo-flashcards.git"
+  },
+  "keywords": [
+    "judo",
+    "flashcards",
+    "education",
+    "martial-arts",
+    "study",
+    "learning",
+    "training",
+    "belt-ranks",
+    "japanese",
+    "spa",
+    "vanilla-javascript"
+  ],
+  "author": "Your Name <your.email@example.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yourusername/judo-flashcards/issues"
+  },
+  "homepage": "https://github.com/yourusername/judo-flashcards#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {},
+  "dependencies": {},
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 Edge versions"
+  ],
+  "files": [
+    "index.html",
+    "favicon.svg",
+    "study/",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ]
+}

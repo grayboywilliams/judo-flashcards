@@ -1,0 +1,590 @@
+/**
+ * Judo Flashcards - Main Application Script
+ * Interactive flashcard study system for judo techniques and terminology
+ */
+
+// ============================================================================
+// STATE MANAGEMENT
+// ============================================================================
+
+/** @type {Array<{front: string, back: string, correct: number, wrong: number}>} */
+let flashcards = [];
+
+/** @type {number} Current card index in the deck */
+let currentIndex = 0;
+
+/** @type {boolean} Whether the current card is showing the back */
+let isFlipped = false;
+
+/** @type {string} Current study category: 'all', 'recite', or 'perform' */
+let currentCategory = 'all';
+
+/** @type {boolean} Whether the current card has been answered */
+let hasAnsweredCurrent = false;
+
+/** @constant {string} localStorage key for storing statistics */
+const STORAGE_KEY = 'judo_flashcard_stats';
+
+// ============================================================================
+// BELT CONFIGURATION
+// ============================================================================
+
+/**
+ * Belt configuration for all ranks
+ * Each belt contains display information, file paths, and theme colors
+ */
+const belts = {
+    gokyu: {
+        name: 'Gokyu',
+        color: 'Yellow',
+        path: 'study/gokyu',
+        cssClass: 'belt-gokyu',
+        theme: { primary: '#ffd700', dark: '#ccac00' },
+        files: { recite: 'recite.csv', perform: 'perform.csv' },
+        enabled: true
+    },
+    yonkyu: {
+        name: 'Yonkyu',
+        color: 'Orange',
+        path: 'study/yonkyu',
+        cssClass: 'belt-yonkyu',
+        theme: { primary: '#ff8c00', dark: '#cc6600' },
+        files: { recite: 'recite.csv', perform: 'perform.csv' },
+        enabled: false
+    },
+    sankyu: {
+        name: 'Sankyu',
+        color: 'Green',
+        path: 'study/sankyu',
+        cssClass: 'belt-sankyu',
+        theme: { primary: '#228b22', dark: '#196619' },
+        files: { recite: 'recite.csv', perform: 'perform.csv' },
+        enabled: false
+    },
+    nikyu: {
+        name: 'Nikyu',
+        color: 'Blue',
+        path: 'study/nikyu',
+        cssClass: 'belt-nikyu',
+        theme: { primary: '#4169e1', dark: '#3253b3' },
+        files: { recite: 'recite.csv', perform: 'perform.csv' },
+        enabled: false
+    },
+    ikkyu: {
+        name: 'Ikkyu',
+        color: 'Brown',
+        path: 'study/ikkyu',
+        cssClass: 'belt-ikkyu',
+        theme: { primary: '#8b4513', dark: '#69340e' },
+        files: { recite: 'recite.csv', perform: 'perform.csv' },
+        enabled: false
+    },
+    shodan: {
+        name: 'Shodan',
+        color: 'Black',
+        path: 'study/shodan',
+        cssClass: 'belt-shodan',
+        theme: { primary: '#2a2a2a', dark: '#0a0a0a' },
+        files: { recite: 'recite.csv', perform: 'perform.csv' },
+        enabled: false
+    }
+};
+
+/** @constant {string} Currently active belt rank */
+const currentBelt = 'gokyu';
+
+/**
+ * Display names for each category type
+ * @constant {Object<string, string>}
+ */
+const categoryNames = {
+    'all': 'All',
+    'recite': 'Recite',
+    'perform': 'Perform'
+};
+
+// ============================================================================
+// UTILITY FUNCTIONS
+// ============================================================================
+
+/**
+ * Get CSV file paths for a given category
+ * @param {string} category - Category type: 'all', 'recite', or 'perform'
+ * @returns {string[]} Array of file paths
+ */
+function getCategoryFiles(category) {
+    const belt = belts[currentBelt];
+    if (category === 'all') {
+        return Object.values(belt.files).map(f => `${belt.path}/${f}`);
+    }
+    return [`${belt.path}/${belt.files[category]}`];
+}
+
+/**
+ * Apply visual theming for a specific belt
+ * @param {string} beltKey - Belt identifier (e.g., 'gokyu', 'yonkyu')
+ */
+function applyBeltTheme(beltKey) {
+    const belt = belts[beltKey];
+    const indicator = document.getElementById('belt-indicator');
+
+    // Update belt indicator
+    Object.keys(belts).forEach(k => indicator.classList.remove(belts[k].cssClass));
+    indicator.classList.add(belt.cssClass);
+    indicator.title = `${belt.color} Belt`;
+
+    // Update page title
+    document.title = `Judo Study - ${belt.name}`;
+}
+
+/**
+ * Get list of all enabled belts for selection UI
+ * @returns {Array<Object>} Array of enabled belt configurations
+ */
+function getEnabledBelts() {
+    return Object.entries(belts)
+        .filter(([_, belt]) => belt.enabled)
+        .map(([key, belt]) => ({ key, ...belt }));
+}
+
+// ============================================================================
+// STATISTICS MANAGEMENT
+// ============================================================================
+
+/**
+ * Load statistics from localStorage
+ * @returns {Object<string, {correct: number, wrong: number}>} Statistics object
+ */
+function loadStats() {
+    try {
+        const data = localStorage.getItem(STORAGE_KEY);
+        return data ? JSON.parse(data) : {};
+    } catch (e) {
+        return {};
+    }
+}
+
+/**
+ * Save statistics to localStorage
+ * @param {Object<string, {correct: number, wrong: number}>} stats - Statistics to save
+ */
+function saveStats(stats) {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
+    } catch (e) {
+        console.error('Failed to save stats:', e);
+    }
+}
+
+/**
+ * Get statistics for a specific flashcard
+ * @param {string} front - The question text
+ * @returns {{correct: number, wrong: number}} Card statistics
+ */
+function getCardStats(front) {
+    const stats = loadStats();
+    return stats[front] || { correct: 0, wrong: 0 };
+}
+
+/**
+ * Record a user's answer and update statistics
+ * @param {string} front - The question text
+ * @param {boolean} isCorrect - Whether the answer was correct
+ */
+function recordAnswer(front, isCorrect) {
+    const stats = loadStats();
+    if (!stats[front]) {
+        stats[front] = { correct: 0, wrong: 0 };
+    }
+    if (isCorrect) {
+        stats[front].correct++;
+    } else {
+        stats[front].wrong++;
+    }
+    saveStats(stats);
+}
+
+/**
+ * Clear all stored statistics after user confirmation
+ */
+function clearAllStats() {
+    if (confirm('Clear all progress? This cannot be undone.')) {
+        localStorage.removeItem(STORAGE_KEY);
+        updateLandingStats();
+    }
+}
+
+/**
+ * Update the statistics summary on the landing page
+ * Calculates total correct, wrong, and unseen cards across all categories
+ */
+async function updateLandingStats() {
+    const allFiles = getCategoryFiles('all');
+    const stats = loadStats();
+    let totalCorrect = 0;
+    let totalWrong = 0;
+    let totalUnseen = 0;
+
+    for (const file of allFiles) {
+        try {
+            const response = await fetch(file);
+            const csvText = await response.text();
+            const lines = csvText.split('\n');
+
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (line) {
+                    const values = parseCSVLine(line);
+                    if (values.length >= 2) {
+                        const cardStats = stats[values[0]];
+                        if (cardStats) {
+                            totalCorrect += cardStats.correct;
+                            totalWrong += cardStats.wrong;
+                        } else {
+                            totalUnseen++;
+                        }
+                    }
+                }
+            }
+        } catch (e) {
+            console.error('Error loading stats for', file, e);
+        }
+    }
+
+    document.getElementById('total-correct').textContent = totalCorrect;
+    document.getElementById('total-wrong').textContent = totalWrong;
+    document.getElementById('total-unseen').textContent = totalUnseen;
+}
+
+// ============================================================================
+// NAVIGATION & UI CONTROL
+// ============================================================================
+
+/**
+ * Start practice session with selected category
+ * Switches from landing page to flashcard view
+ */
+function startPractice() {
+    currentCategory = document.getElementById('category').value;
+    document.getElementById('landing').style.display = 'none';
+    document.getElementById('flashcards').style.display = 'block';
+    document.getElementById('category-name').textContent = categoryNames[currentCategory];
+    loadCards();
+}
+
+/**
+ * Return to landing page from flashcard view
+ * Updates statistics before showing landing page
+ */
+function goBack() {
+    document.getElementById('flashcards').style.display = 'none';
+    document.getElementById('landing').style.display = 'block';
+    updateLandingStats();
+}
+
+// ============================================================================
+// FLASHCARD DATA LOADING
+// ============================================================================
+
+/**
+ * Load flashcards from CSV files
+ * Parses CSV, merges with statistics, shuffles, and displays cards
+ */
+async function loadCards() {
+    try {
+        const files = getCategoryFiles(currentCategory);
+        const stats = loadStats();
+        flashcards = [];
+
+        for (const file of files) {
+            const response = await fetch(file);
+            const csvText = await response.text();
+            const lines = csvText.split('\n');
+
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (line) {
+                    const values = parseCSVLine(line);
+                    if (values.length >= 2) {
+                        const cardStats = stats[values[0]] || { correct: 0, wrong: 0 };
+                        flashcards.push({
+                            front: values[0],
+                            back: values[1],
+                            correct: cardStats.correct,
+                            wrong: cardStats.wrong
+                        });
+                    }
+                }
+            }
+        }
+
+        shuffleArray(flashcards);
+        currentIndex = 0;
+        hasAnsweredCurrent = false;
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        updateCard();
+        updateProgress();
+        updateNavigation();
+    } catch (error) {
+        console.error('Error loading flashcards:', error);
+        document.getElementById('loading').innerHTML = 'Error loading flashcards.';
+    }
+}
+
+/**
+ * Parse a CSV line handling quoted values and commas
+ * @param {string} line - CSV line to parse
+ * @returns {string[]} Array of parsed values
+ */
+function parseCSVLine(line) {
+    const values = [];
+    let current = '';
+    let inQuotes = false;
+
+    for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        if (char === '"') {
+            inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+            values.push(current.trim());
+            current = '';
+        } else {
+            current += char;
+        }
+    }
+    values.push(current.trim());
+    return values;
+}
+
+/**
+ * Shuffle array in place using Fisher-Yates algorithm
+ * @param {Array} array - Array to shuffle
+ */
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+// ============================================================================
+// CARD INTERACTION
+// ============================================================================
+
+/**
+ * Flip card to show the back (answer side)
+ * Only flips if not already flipped
+ */
+function flipToBack() {
+    if (!isFlipped) {
+        document.getElementById('flashcard').classList.add('flipped');
+        isFlipped = true;
+    }
+}
+
+/**
+ * Mark the current card as correct or wrong
+ * Records answer, updates display, and auto-advances to next card
+ * @param {boolean} isCorrect - Whether the answer was correct
+ * @param {Event} event - Click event (optional, for stopPropagation)
+ */
+function markAnswer(isCorrect, event) {
+    if (event) event.stopPropagation();
+    if (hasAnsweredCurrent) {
+        nextCard();
+        return;
+    }
+
+    const card = flashcards[currentIndex];
+    recordAnswer(card.front, isCorrect);
+    hasAnsweredCurrent = true;
+
+    // Update local card stats
+    if (isCorrect) {
+        card.correct++;
+    } else {
+        card.wrong++;
+    }
+    updateCardStatsDisplay();
+
+    // Auto-advance to next card
+    setTimeout(() => nextCard(), 300);
+}
+
+/**
+ * Update the displayed flashcard
+ * Handles card flip animation when changing cards
+ */
+function updateCard() {
+    if (flashcards.length === 0) return;
+
+    const flashcard = document.getElementById('flashcard');
+    hasAnsweredCurrent = false;
+
+    if (isFlipped) {
+        flashcard.classList.remove('flipped');
+        isFlipped = false;
+        setTimeout(() => {
+            updateCardContent();
+        }, 600);
+    } else {
+        updateCardContent();
+    }
+}
+
+/**
+ * Update the statistics display on the current card
+ * Shows correct/wrong count in format "X/Y"
+ */
+function updateCardStatsDisplay() {
+    const card = flashcards[currentIndex];
+    const statsText = `${card.correct}/${card.wrong}`;
+    document.getElementById('card-stats-front').textContent = statsText;
+    document.getElementById('card-stats-back').textContent = statsText;
+}
+
+/**
+ * Update the text content of the current card
+ * Sets question, answer, and statistics
+ */
+function updateCardContent() {
+    const card = flashcards[currentIndex];
+    document.getElementById('front-text').textContent = card.front;
+    document.getElementById('back-text').textContent = card.back;
+    updateCardStatsDisplay();
+}
+
+/**
+ * Toggle card flip state (front ↔ back)
+ * Called by flip button or keyboard shortcut
+ */
+function flipCard() {
+    const flashcard = document.getElementById('flashcard');
+
+    if (!isFlipped) {
+        flipToBack();
+    } else {
+        flashcard.classList.remove('flipped');
+        isFlipped = false;
+    }
+}
+
+/**
+ * Update the progress bar and card counter
+ * Shows current position and percentage complete
+ */
+function updateProgress() {
+    if (flashcards.length === 0) return;
+    document.getElementById('current').textContent = currentIndex + 1;
+    document.getElementById('total').textContent = flashcards.length;
+    const progress = ((currentIndex + 1) / flashcards.length) * 100;
+    document.getElementById('progress-fill').style.width = progress + '%';
+}
+
+/**
+ * Update navigation button states
+ * Disables prev/next buttons at deck boundaries
+ */
+function updateNavigation() {
+    document.getElementById('prev-btn').disabled = currentIndex === 0;
+    document.getElementById('next-btn').disabled = currentIndex === flashcards.length - 1 || flashcards.length === 0;
+}
+
+/**
+ * Navigate to the previous card in the deck
+ * Updates card, progress, and navigation state
+ */
+function previousCard() {
+    if (currentIndex > 0) {
+        currentIndex--;
+        updateCard();
+        updateProgress();
+        updateNavigation();
+    }
+}
+
+/**
+ * Navigate to the next card in the deck
+ * Updates card, progress, and navigation state
+ */
+function nextCard() {
+    if (currentIndex < flashcards.length - 1) {
+        currentIndex++;
+        updateCard();
+        updateProgress();
+        updateNavigation();
+    }
+}
+
+/**
+ * Reset to the first card in the deck
+ * Useful for starting over without reshuffling
+ */
+function resetProgress() {
+    currentIndex = 0;
+    updateCard();
+    updateProgress();
+    updateNavigation();
+}
+
+/**
+ * Handle clicks on the flashcard
+ * Flips to back unless clicking on mark buttons
+ * @param {Event} event - Click event
+ */
+function handleCardClick(event) {
+    // Don't flip if clicking on mark buttons
+    if (event.target.classList.contains('mark-btn')) return;
+    if (!isFlipped) {
+        flipToBack();
+    }
+}
+
+// ============================================================================
+// EVENT LISTENERS
+// ============================================================================
+
+/**
+ * Global keyboard shortcut handler
+ * Active only when flashcard view is displayed
+ */
+document.addEventListener('keydown', function(event) {
+    if (document.getElementById('flashcards').style.display === 'block') {
+        if (event.key === ' ' || event.key === 'Enter') {
+            event.preventDefault();
+            if (!isFlipped) {
+                flipToBack();
+            }
+        } else if (event.key === 'ArrowLeft') {
+            previousCard();
+        } else if (event.key === 'ArrowRight') {
+            if (isFlipped && !hasAnsweredCurrent) {
+                // Skip without marking (treat as wrong for weak mode purposes)
+                markAnswer(false);
+            } else {
+                nextCard();
+            }
+        } else if (event.key === '1' || event.key === 'c') {
+            if (isFlipped && !hasAnsweredCurrent) {
+                markAnswer(true);
+            }
+        } else if (event.key === '2' || event.key === 'w') {
+            if (isFlipped && !hasAnsweredCurrent) {
+                markAnswer(false);
+            }
+        }
+    } else if (event.key === 'Enter') {
+        startPractice();
+    }
+});
+
+// ============================================================================
+// INITIALIZATION
+// ============================================================================
+
+/**
+ * Initialize application on page load
+ * Loads and displays landing page statistics
+ */
+updateLandingStats();
