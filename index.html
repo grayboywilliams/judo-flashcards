@@ -54,22 +54,62 @@
             box-shadow: 0 8px 32px rgba(0,0,0,0.3);
         }
 
+        .belt-selector {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .belt-indicator {
+            width: 120px;
+            height: 20px;
+            border-radius: 3px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.4);
+            flex-shrink: 0;
+        }
+
+        /* Belt colors for each rank */
+        .belt-gokyu {
+            background: linear-gradient(180deg, #ffd700 0%, #e6c200 50%, #ccac00 100%);
+            border: 1px solid #b8960a;
+        }
+        .belt-yonkyu {
+            background: linear-gradient(180deg, #ff8c00 0%, #e67300 50%, #cc6600 100%);
+            border: 1px solid #b35900;
+        }
+        .belt-sankyu {
+            background: linear-gradient(180deg, #228b22 0%, #1e7b1e 50%, #196619 100%);
+            border: 1px solid #145214;
+        }
+        .belt-nikyu {
+            background: linear-gradient(180deg, #4169e1 0%, #3a5ecc 50%, #3253b3 100%);
+            border: 1px solid #2a4799;
+        }
+        .belt-ikkyu {
+            background: linear-gradient(180deg, #8b4513 0%, #7a3d11 50%, #69340e 100%);
+            border: 1px solid #5a2d0c;
+        }
+        .belt-shodan {
+            background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 50%, #0a0a0a 100%);
+            border: 1px solid #000;
+        }
+
         select {
-            width: 100%;
+            flex: 1;
             padding: 15px 20px;
             font-size: 1.1em;
-            border: 3px solid rgba(255, 255, 255, 0.3);
+            border: 3px solid #ffd700;
             border-radius: 10px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             color: #333;
             cursor: pointer;
-            margin-bottom: 30px;
         }
 
         select:focus {
             outline: none;
-            border-color: #e63946;
-            box-shadow: 0 0 15px rgba(230, 57, 70, 0.3);
+            border-color: #e6c200;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
         }
 
         .btn {
@@ -77,18 +117,18 @@
             font-size: 1.2em;
             border: none;
             border-radius: 10px;
-            background: linear-gradient(135deg, #e63946 0%, #a8201a 100%);
-            color: white;
+            background: linear-gradient(135deg, #ffd700 0%, #e6c200 100%);
+            color: #333;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.4);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
             margin: 5px;
         }
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(230, 57, 70, 0.6);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
         }
 
         .btn-secondary {
@@ -308,7 +348,7 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #e63946 0%, #ff6b6b 100%);
+            background: linear-gradient(90deg, #ffd700 0%, #ffeb3b 100%);
             transition: width 0.3s ease;
             border-radius: 4px;
         }
@@ -370,11 +410,14 @@
             <p>Gokyu (Yellow Belt)</p>
 
             <div class="category-select">
-                <select id="category">
-                    <option value="all">All</option>
-                    <option value="recite">Recite</option>
-                    <option value="perform">Perform</option>
-                </select>
+                <div class="belt-selector">
+                    <div class="belt-indicator belt-gokyu" id="belt-indicator" title="Yellow Belt"></div>
+                    <select id="category">
+                        <option value="all">All - Yellow Belt</option>
+                        <option value="recite">Recite - Yellow Belt</option>
+                        <option value="perform">Perform - Yellow Belt</option>
+                    </select>
+                </div>
 
                 <button class="btn" onclick="startPractice()">Start Practice</button>
 
@@ -461,18 +504,62 @@
 
         const STORAGE_KEY = 'judo_flashcard_stats';
 
-        // Belt configuration - extensible for future ranks
+        // Belt configuration for all ranks
         const belts = {
             gokyu: {
-                name: 'Gokyu (Yellow Belt)',
+                name: 'Gokyu',
+                color: 'Yellow',
                 path: 'study/gokyu',
-                files: {
-                    recite: 'recite.csv',
-                    perform: 'perform.csv'
-                }
+                cssClass: 'belt-gokyu',
+                theme: { primary: '#ffd700', dark: '#ccac00' },
+                files: { recite: 'recite.csv', perform: 'perform.csv' },
+                enabled: true
+            },
+            yonkyu: {
+                name: 'Yonkyu',
+                color: 'Orange',
+                path: 'study/yonkyu',
+                cssClass: 'belt-yonkyu',
+                theme: { primary: '#ff8c00', dark: '#cc6600' },
+                files: { recite: 'recite.csv', perform: 'perform.csv' },
+                enabled: false
+            },
+            sankyu: {
+                name: 'Sankyu',
+                color: 'Green',
+                path: 'study/sankyu',
+                cssClass: 'belt-sankyu',
+                theme: { primary: '#228b22', dark: '#196619' },
+                files: { recite: 'recite.csv', perform: 'perform.csv' },
+                enabled: false
+            },
+            nikyu: {
+                name: 'Nikyu',
+                color: 'Blue',
+                path: 'study/nikyu',
+                cssClass: 'belt-nikyu',
+                theme: { primary: '#4169e1', dark: '#3253b3' },
+                files: { recite: 'recite.csv', perform: 'perform.csv' },
+                enabled: false
+            },
+            ikkyu: {
+                name: 'Ikkyu',
+                color: 'Brown',
+                path: 'study/ikkyu',
+                cssClass: 'belt-ikkyu',
+                theme: { primary: '#8b4513', dark: '#69340e' },
+                files: { recite: 'recite.csv', perform: 'perform.csv' },
+                enabled: false
+            },
+            shodan: {
+                name: 'Shodan',
+                color: 'Black',
+                path: 'study/shodan',
+                cssClass: 'belt-shodan',
+                theme: { primary: '#2a2a2a', dark: '#0a0a0a' },
+                files: { recite: 'recite.csv', perform: 'perform.csv' },
+                enabled: false
             }
-            // Future belts can be added here:
-            // yonkyu: { name: 'Yonkyu (Orange Belt)', path: 'study/yonkyu', files: { ... } }
         };
 
         const currentBelt = 'gokyu';
@@ -489,6 +576,35 @@
                 return Object.values(belt.files).map(f => `${belt.path}/${f}`);
             }
             return [`${belt.path}/${belt.files[category]}`];
+        }
+
+        // Apply belt theming (for future belt switching)
+        function applyBeltTheme(beltKey) {
+            const belt = belts[beltKey];
+            const indicator = document.getElementById('belt-indicator');
+
+            // Update belt indicator
+            Object.keys(belts).forEach(k => indicator.classList.remove(belts[k].cssClass));
+            indicator.classList.add(belt.cssClass);
+            indicator.title = `${belt.color} Belt`;
+
+            // Update dropdown options
+            const select = document.getElementById('category');
+            select.innerHTML = `
+                <option value="all">All - ${belt.color} Belt</option>
+                <option value="recite">Recite - ${belt.color} Belt</option>
+                <option value="perform">Perform - ${belt.color} Belt</option>
+            `;
+
+            // Update header
+            document.querySelector('.landing p').textContent = `${belt.name} (${belt.color} Belt)`;
+        }
+
+        // Get list of enabled belts (for future belt selector)
+        function getEnabledBelts() {
+            return Object.entries(belts)
+                .filter(([_, belt]) => belt.enabled)
+                .map(([key, belt]) => ({ key, ...belt }));
         }
 
         // Load stats from localStorage
