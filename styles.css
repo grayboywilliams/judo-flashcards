@@ -531,9 +531,20 @@ select option {
         padding: 12px 15px;
     }
     
+    .select-with-indicator {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    
     .belt-indicator {
-        width: 40px;
+        width: 100%;
         height: 16px;
+        order: 2;
+    }
+    
+    select {
+        order: 1;
     }
     
     .flashcard {
