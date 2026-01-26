@@ -12,82 +12,42 @@
         <!-- Landing Page -->
         <div id="landing" class="landing">
             <h1>Judo Flashcards</h1>
-            
-            <div class="category-info">
-                Click to flip, then mark correct or wrong!
-            </div>
 
-            <div class="study-options">
-                <h3>Select Belt & Category</h3>
-                
-                <!-- Belt Options -->
-                <div class="belt-options">
-                    <div class="belt-option" data-belt="gokyu" onclick="selectBelt('gokyu')">
-                        <div class="belt-option-indicator belt-gokyu"></div>
-                        <div class="belt-option-info">
-                            <div class="belt-option-name">5th Kyu</div>
-                            <div class="belt-option-color">Yellow</div>
+            <div class="category-select">
+                <div class="selector-row">
+                    <div class="selector-group">
+                        <label for="belt-select">Belt Rank</label>
+                        <div class="select-with-indicator">
+                            <div class="belt-indicator belt-gokyu" id="belt-indicator"></div>
+                            <select id="belt-select" onchange="updateBeltIndicator()">
+                                <option value="gokyu">5th Kyu - Yellow</option>
+                                <option value="yonkyu" disabled>4th Kyu - Orange</option>
+                                <option value="sankyu" disabled>3rd Kyu - Green</option>
+                                <option value="nikyu" disabled>2nd Kyu - Blue</option>
+                                <option value="ikkyu" disabled>1st Kyu - Brown</option>
+                                <option value="shodan" disabled>1st Dan - Black</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="belt-option disabled" data-belt="yonkyu">
-                        <div class="belt-option-indicator belt-yonkyu"></div>
-                        <div class="belt-option-info">
-                            <div class="belt-option-name">4th Kyu</div>
-                            <div class="belt-option-color">Orange</div>
-                        </div>
-                    </div>
-                    <div class="belt-option disabled" data-belt="sankyu">
-                        <div class="belt-option-indicator belt-sankyu"></div>
-                        <div class="belt-option-info">
-                            <div class="belt-option-name">3rd Kyu</div>
-                            <div class="belt-option-color">Green</div>
-                        </div>
-                    </div>
-                    <div class="belt-option disabled" data-belt="nikyu">
-                        <div class="belt-option-indicator belt-nikyu"></div>
-                        <div class="belt-option-info">
-                            <div class="belt-option-name">2nd Kyu</div>
-                            <div class="belt-option-color">Blue</div>
-                        </div>
-                    </div>
-                    <div class="belt-option disabled" data-belt="ikkyu">
-                        <div class="belt-option-indicator belt-ikkyu"></div>
-                        <div class="belt-option-info">
-                            <div class="belt-option-name">1st Kyu</div>
-                            <div class="belt-option-color">Brown</div>
-                        </div>
-                    </div>
-                    <div class="belt-option disabled" data-belt="shodan">
-                        <div class="belt-option-indicator belt-shodan"></div>
-                        <div class="belt-option-info">
-                            <div class="belt-option-name">1st Dan</div>
-                            <div class="belt-option-color">Black</div>
-                        </div>
+
+                    <div class="selector-group">
+                        <label for="category">Category</label>
+                        <select id="category">
+                            <option value="all">📚 All</option>
+                            <option value="recite">🗣️ Recite</option>
+                            <option value="perform">🥋 Perform</option>
+                        </select>
                     </div>
                 </div>
 
-                <!-- Category Buttons -->
-                <div class="category-buttons">
-                    <button class="category-btn" data-category="all" onclick="startPractice('all')">
-                        <span class="category-icon">📚</span>
-                        <span class="category-text">All</span>
-                        <div class="belt-mini belt-gokyu" id="belt-all"></div>
-                    </button>
-                    <button class="category-btn" data-category="recite" onclick="startPractice('recite')">
-                        <span class="category-icon">🗣️</span>
-                        <span class="category-text">Recite</span>
-                        <div class="belt-mini belt-gokyu" id="belt-recite"></div>
-                    </button>
-                    <button class="category-btn" data-category="perform" onclick="startPractice('perform')">
-                        <span class="category-icon">🥋</span>
-                        <span class="category-text">Perform</span>
-                        <div class="belt-mini belt-gokyu" id="belt-perform"></div>
-                    </button>
+                <button class="btn" onclick="startPractice()">Start Practice</button>
+
+                <div class="category-info">
+                    Click to flip, then mark correct or wrong!
                 </div>
 
-                <!-- Stats Summary -->
                 <div class="stats-summary" id="stats-summary">
-                    <h4>Your Progress</h4>
+                    <h3>Your Progress</h3>
                     <div class="stats-row">
                         <div class="stat-item">
                             <div class="stat-value stat-correct" id="total-correct">0</div>
