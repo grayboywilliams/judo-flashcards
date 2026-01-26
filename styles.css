@@ -144,8 +144,8 @@ select {
     font-size: 1em;
     border: 3px solid #ffd700;
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.95);
-    color: #333;
+    background: rgba(42, 45, 58, 0.95);
+    color: #ffffff;
     cursor: pointer;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -157,13 +157,18 @@ select:focus {
     box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
 }
 
+select option {
+    background: #2a2d3a;
+    color: #ffffff;
+}
+
 .btn {
     padding: 15px 40px;
     font-size: 1.2em;
     border: none;
     border-radius: 10px;
-    background: linear-gradient(135deg, #e7e7e7 0%, #e7e7e7 100%);
-    color: #333;
+    background: linear-gradient(135deg, #ffd700 0%, #e6c200 100%);
+    color: #1a1a2e;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -345,14 +350,16 @@ select:focus {
 }
 
 .card-front {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    color: #1a1a2e;
+    background: linear-gradient(135deg, #2a2d3a 0%, #1f2229 100%);
+    color: #ffffff;
+    border: 1px solid rgba(255, 215, 0, 0.2);
 }
 
 .card-back {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    color: #1a1a2e;
+    background: linear-gradient(135deg, #2a2d3a 0%, #1f2229 100%);
+    color: #ffffff;
     transform: rotateY(180deg);
+    border: 1px solid rgba(255, 215, 0, 0.2);
 }
 
 .front-text {
@@ -373,7 +380,7 @@ select:focus {
     right: 15px;
     font-size: 0.8em;
     opacity: 0.6;
-    color: #666;
+    color: #bbb;
 }
 
 .card-stats::before {
@@ -386,6 +393,7 @@ select:focus {
     right: 15px;
     font-size: 0.8em;
     opacity: 0.9;
+    color: #ddd;
 }
 
 .card-stats-back::before {
