@@ -167,18 +167,19 @@ select option {
     font-size: 1.2em;
     border: none;
     border-radius: 10px;
-    background: linear-gradient(135deg, #ffd700 0%, #e6c200 100%);
-    color: #1a1a2e;
+    background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+    color: #ffffff;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     margin: 5px;
 }
 
 .btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(135deg, #5a6578 0%, #3d4758 100%);
 }
 
 .btn-secondary {
