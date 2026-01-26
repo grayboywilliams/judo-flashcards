@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <title>Judo Study - Gokyu (Yellow Belt)</title>
+    <title>Judo Study</title>
     <style>
         * {
             margin: 0;
@@ -254,7 +254,7 @@
 
         .card-back {
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            color: white;
+            color: #1a1a2e;
             transform: rotateY(180deg);
         }
 
@@ -412,9 +412,9 @@
                 <div class="belt-selector">
                     <div class="belt-indicator belt-gokyu" id="belt-indicator" title="Yellow Belt"></div>
                     <select id="category">
-                        <option value="all">All - Yellow Belt</option>
-                        <option value="recite">Recite - Yellow Belt</option>
-                        <option value="perform">Perform - Yellow Belt</option>
+                        <option value="all">All</option>
+                        <option value="recite">Recite</option>
+                        <option value="perform">Perform</option>
                     </select>
                 </div>
 
@@ -448,7 +448,7 @@
         <!-- Flashcards Page -->
         <div id="flashcards" class="flashcards">
             <div class="header">
-                <h1>Gokyu (Yellow Belt)</h1>
+                <h1>Judo Study</h1>
                 <p id="category-name">All</p>
             </div>
 
@@ -587,16 +587,8 @@
             indicator.classList.add(belt.cssClass);
             indicator.title = `${belt.color} Belt`;
 
-            // Update dropdown options
-            const select = document.getElementById('category');
-            select.innerHTML = `
-                <option value="all">All - ${belt.color} Belt</option>
-                <option value="recite">Recite - ${belt.color} Belt</option>
-                <option value="perform">Perform - ${belt.color} Belt</option>
-            `;
-
-            // Update header
-            document.querySelector('.landing p').textContent = `${belt.name} (${belt.color} Belt)`;
+            // Update page title
+            document.title = `Judo Study - ${belt.name}`;
         }
 
         // Get list of enabled belts (for future belt selector)
