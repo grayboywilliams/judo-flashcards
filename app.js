@@ -193,6 +193,19 @@ function applyBeltTheme() {
 }
 
 /**
+ * Update the belt display when category is selected
+ */
+function updateBeltDisplay() {
+    const category = document.getElementById('category').value;
+    const beltDisplay = document.getElementById('belt-display');
+    if (category) {
+        beltDisplay.style.display = 'block';
+    } else {
+        beltDisplay.style.display = 'none';
+    }
+}
+
+/**
  * Start practice session with selected category
  * Switches from landing page to flashcard view
  */

@@ -16,12 +16,13 @@
             <div class="category-select">
                 <div class="selector-group">
                     <label for="category">Category</label>
-                    <select id="category">
+                    <select id="category" onchange="updateBeltDisplay()">
+                        <option value="" disabled selected>Select a category...</option>
                         <option value="recite">Gokyu (Yellow Belt) - Recite</option>
                         <option value="perform">Gokyu (Yellow Belt) - Perform</option>
                         <option value="all">Gokyu (Yellow Belt) - All</option>
                     </select>
-                    <div id="belt-display" class="belt-display belt-gokyu"></div>
+                    <div id="belt-display" class="belt-display belt-gokyu" style="display: none;"></div>
                 </div>
 
                 <button class="btn" style="margin-top: 2rem;" onclick="startPractice()">Start Practice</button>
