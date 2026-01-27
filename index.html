@@ -14,55 +14,19 @@
             <h1>Judo Flashcards</h1>
 
             <div class="category-select">
-                <div class="selector-row">
-                    <div class="selector-group">
-                        <label for="belt-select">Belt Rank</label>
-                        <div class="select-with-indicator">
-                            <div class="belt-indicator belt-gokyu" id="belt-indicator"></div>
-                            <select id="belt-select" onchange="updateBeltIndicator()">
-                                <option value="gokyu">5th Kyu - Yellow</option>
-                                <option value="yonkyu">4th Kyu - Orange (Not implemented yet)</option>
-                                <option value="sankyu">3rd Kyu - Green (Not implemented yet)</option>
-                                <option value="nikyu">2nd Kyu - Blue (Not implemented yet)</option>
-                                <option value="ikkyu">1st Kyu - Brown (Not implemented yet)</option>
-                                <option value="shodan">1st Dan - Black (Not implemented yet)</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="selector-group">
-                        <label for="category">Category</label>
-                        <select id="category">
-                            <option value="recite">🗣️ Recite</option>
-                            <option value="perform">🥋 Perform</option>
-                            <option value="all">📚 All</option>
-                        </select>
-                    </div>
+                <div class="selector-group">
+                    <label for="category">Study Mode</label>
+                    <select id="category">
+                        <option value="recite">Yellow Belt - Recite</option>
+                        <option value="perform">Yellow Belt - Perform</option>
+                        <option value="all">Yellow Belt - All</option>
+                    </select>
                 </div>
 
                 <button class="btn" onclick="startPractice()">Start Practice</button>
 
                 <div class="category-info">
                     Click to flip, then mark correct or wrong!
-                </div>
-
-                <div class="stats-summary" id="stats-summary">
-                    <h3>Your Progress</h3>
-                    <div class="stats-row">
-                        <div class="stat-item">
-                            <div class="stat-value stat-correct" id="total-correct">0</div>
-                            <div class="stat-label">Correct</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value stat-wrong" id="total-wrong">0</div>
-                            <div class="stat-label">Wrong</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value stat-unseen" id="total-unseen">0</div>
-                            <div class="stat-label">Unseen</div>
-                        </div>
-                    </div>
-                    <button class="btn btn-secondary btn-clear" onclick="clearAllStats()">Clear Stats</button>
                 </div>
             </div>
         </div>
