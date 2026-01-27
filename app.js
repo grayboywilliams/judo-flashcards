@@ -184,6 +184,15 @@ function recordAnswer(front, isCorrect) {
 // ============================================================================
 
 /**
+ * Apply the current belt's theme colors to UI elements
+ */
+function applyBeltTheme() {
+    const belt = belts[currentBelt];
+    const progressFill = document.getElementById('progress-fill');
+    progressFill.style.background = `linear-gradient(90deg, ${belt.theme.primary} 0%, ${belt.theme.dark} 100%)`;
+}
+
+/**
  * Start practice session with selected category
  * Switches from landing page to flashcard view
  */
@@ -191,6 +200,7 @@ function startPractice() {
     currentCategory = document.getElementById('category').value;
     document.getElementById('landing').style.display = 'none';
     document.getElementById('flashcards').style.display = 'block';
+    applyBeltTheme();
     loadCards();
 }
 
@@ -346,7 +356,7 @@ function markAnswer(isCorrect, event) {
     updateCardStatsDisplay();
 
     // Auto-advance to next card
-    setTimeout(() => nextCard(), 300);
+    setTimeout(() => nextCard(), 150);
 }
 
 /**
@@ -364,7 +374,7 @@ function updateCard() {
         isFlipped = false;
         setTimeout(() => {
             updateCardContent();
-        }, 600);
+        }, 300);
     } else {
         updateCardContent();
     }
