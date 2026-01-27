@@ -211,6 +211,7 @@ function updateBeltDisplay() {
  */
 function startPractice() {
     currentCategory = document.getElementById('category').value;
+    if (!currentCategory) return;
     document.getElementById('landing').style.display = 'none';
     document.getElementById('flashcards').style.display = 'block';
     applyBeltTheme();
