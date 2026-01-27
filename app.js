@@ -239,7 +239,7 @@ async function loadCards() {
             }
         }
 
-        shuffleArray(flashcards);
+        weightedShuffle(flashcards);
         currentIndex = 0;
         hasAnsweredCurrent = false;
         document.getElementById('loading').style.display = 'none';
@@ -286,6 +286,47 @@ function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+/**
+ * Weighted shuffle that prioritizes cards with more wrong answers
+ * Cards with higher wrong counts appear earlier, but maintains randomness
+ * @param {Array} array - Array of flashcards to shuffle
+ */
+function weightedShuffle(array) {
+    const result = [];
+    const remaining = [...array];
+
+    while (remaining.length > 0) {
+        // Calculate weights: more wrong = higher weight, more correct = lower weight
+        // Unseen cards (0/0) get a moderate weight
+        const weights = remaining.map(card => {
+            const wrongWeight = card.wrong * 3;
+            const correctPenalty = card.correct;
+            // Base weight of 1 ensures unseen cards have a chance
+            return Math.max(1, 1 + wrongWeight - correctPenalty);
+        });
+
+        const totalWeight = weights.reduce((sum, w) => sum + w, 0);
+        let random = Math.random() * totalWeight;
+
+        let selectedIndex = 0;
+        for (let i = 0; i < weights.length; i++) {
+            random -= weights[i];
+            if (random <= 0) {
+                selectedIndex = i;
+                break;
+            }
+        }
+
+        result.push(remaining[selectedIndex]);
+        remaining.splice(selectedIndex, 1);
+    }
+
+    // Copy result back to original array
+    for (let i = 0; i < result.length; i++) {
+        array[i] = result[i];
     }
 }
 
