@@ -120,32 +120,6 @@ function getCategoryFiles(category) {
     return [`${belt.path}/${belt.files[category]}`];
 }
 
-/**
- * Apply visual theming for a specific belt
- * @param {string} beltKey - Belt identifier (e.g., 'gokyu', 'yonkyu')
- */
-function applyBeltTheme(beltKey) {
-    const belt = belts[beltKey];
-    const indicator = document.getElementById('belt-indicator');
-
-    // Update belt indicator
-    Object.keys(belts).forEach(k => indicator.classList.remove(belts[k].cssClass));
-    indicator.classList.add(belt.cssClass);
-    indicator.title = `${belt.color} Belt`;
-
-    // Update page title
-    document.title = `Judo Study - ${belt.name}`;
-}
-
-/**
- * Get list of all enabled belts for selection UI
- * @returns {Array<Object>} Array of enabled belt configurations
- */
-function getEnabledBelts() {
-    return Object.entries(belts)
-        .filter(([_, belt]) => belt.enabled)
-        .map(([key, belt]) => ({ key, ...belt }));
-}
 
 // ============================================================================
 // STATISTICS MANAGEMENT
@@ -204,92 +178,16 @@ function recordAnswer(front, isCorrect) {
     saveStats(stats);
 }
 
-/**
- * Clear all stored statistics after user confirmation
- */
-function clearAllStats() {
-    if (confirm('Clear all progress? This cannot be undone.')) {
-        localStorage.removeItem(STORAGE_KEY);
-        updateLandingStats();
-    }
-}
-
-/**
- * Update the statistics summary on the landing page
- * Calculates total correct, wrong, and unseen cards across all categories
- */
-async function updateLandingStats() {
-    const allFiles = getCategoryFiles('all');
-    const stats = loadStats();
-    let totalCorrect = 0;
-    let totalWrong = 0;
-    let totalUnseen = 0;
-
-    for (const file of allFiles) {
-        try {
-            const response = await fetch(file);
-            const csvText = await response.text();
-            const lines = csvText.split('\n');
-
-            for (let i = 1; i < lines.length; i++) {
-                const line = lines[i].trim();
-                if (line) {
-                    const values = parseCSVLine(line);
-                    if (values.length >= 2) {
-                        const cardStats = stats[values[0]];
-                        if (cardStats) {
-                            totalCorrect += cardStats.correct;
-                            totalWrong += cardStats.wrong;
-                        } else {
-                            totalUnseen++;
-                        }
-                    }
-                }
-            }
-        } catch (e) {
-            console.error('Error loading stats for', file, e);
-        }
-    }
-
-    document.getElementById('total-correct').textContent = totalCorrect;
-    document.getElementById('total-wrong').textContent = totalWrong;
-    document.getElementById('total-unseen').textContent = totalUnseen;
-}
 
 // ============================================================================
 // NAVIGATION & UI CONTROL
 // ============================================================================
 
 /**
- * Update belt indicator based on selected belt
- */
-function updateBeltIndicator() {
-    const beltSelect = document.getElementById('belt-select');
-    const beltKey = beltSelect.value;
-    const indicator = document.getElementById('belt-indicator');
-    
-    // Remove all belt classes
-    Object.values(belts).forEach(belt => {
-        indicator.classList.remove(belt.cssClass);
-    });
-    
-    // Add selected belt class
-    indicator.classList.add(belts[beltKey].cssClass);
-}
-
-/**
  * Start practice session with selected category
  * Switches from landing page to flashcard view
  */
 function startPractice() {
-    const selectedBelt = document.getElementById('belt-select').value;
-    
-    // Check if belt is implemented
-    if (selectedBelt !== 'gokyu') {
-        alert('This belt rank is not implemented yet.');
-        return;
-    }
-    
     currentCategory = document.getElementById('category').value;
     document.getElementById('landing').style.display = 'none';
     document.getElementById('flashcards').style.display = 'block';
@@ -299,12 +197,10 @@ function startPractice() {
 
 /**
  * Return to landing page from flashcard view
- * Updates statistics before showing landing page
  */
 function goBack() {
     document.getElementById('flashcards').style.display = 'none';
     document.getElementById('landing').style.display = 'block';
-    updateLandingStats();
 }
 
 // ============================================================================
@@ -604,12 +500,3 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-// ============================================================================
-// INITIALIZATION
-// ============================================================================
-
-/**
- * Initialize application on page load
- * Loads and displays landing page statistics
- */
-updateLandingStats();
