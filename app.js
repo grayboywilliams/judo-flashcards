@@ -125,9 +125,12 @@ function getCategoryFiles(category) {
 // STATISTICS MANAGEMENT
 // ============================================================================
 
+/** @constant {number} Maximum number of answers to track per card */
+const MAX_HISTORY = 5;
+
 /**
  * Load statistics from localStorage
- * @returns {Object<string, {correct: number, wrong: number}>} Statistics object
+ * @returns {Object<string, {history: boolean[]}>} Statistics object
  */
 function loadStats() {
     try {
@@ -140,7 +143,7 @@ function loadStats() {
 
 /**
  * Save statistics to localStorage
- * @param {Object<string, {correct: number, wrong: number}>} stats - Statistics to save
+ * @param {Object<string, {history: boolean[]}>} stats - Statistics to save
  */
 function saveStats(stats) {
     try {
@@ -157,7 +160,21 @@ function saveStats(stats) {
  */
 function getCardStats(front) {
     const stats = loadStats();
-    return stats[front] || { correct: 0, wrong: 0 };
+    const cardStats = stats[front];
+
+    // Handle new history format
+    if (cardStats && cardStats.history) {
+        const correct = cardStats.history.filter(x => x).length;
+        const wrong = cardStats.history.filter(x => !x).length;
+        return { correct, wrong };
+    }
+
+    // Handle old format (migration) or missing stats
+    if (cardStats && (cardStats.correct !== undefined || cardStats.wrong !== undefined)) {
+        return { correct: cardStats.correct || 0, wrong: cardStats.wrong || 0 };
+    }
+
+    return { correct: 0, wrong: 0 };
 }
 
 /**
@@ -167,14 +184,18 @@ function getCardStats(front) {
  */
 function recordAnswer(front, isCorrect) {
     const stats = loadStats();
-    if (!stats[front]) {
-        stats[front] = { correct: 0, wrong: 0 };
+
+    // Initialize or migrate to history format
+    if (!stats[front] || !stats[front].history) {
+        stats[front] = { history: [] };
     }
-    if (isCorrect) {
-        stats[front].correct++;
-    } else {
-        stats[front].wrong++;
+
+    // Add new answer and keep only last MAX_HISTORY
+    stats[front].history.push(isCorrect);
+    if (stats[front].history.length > MAX_HISTORY) {
+        stats[front].history.shift();
     }
+
     saveStats(stats);
 }
 
