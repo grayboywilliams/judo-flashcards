@@ -191,7 +191,6 @@ function startPractice() {
     currentCategory = document.getElementById('category').value;
     document.getElementById('landing').style.display = 'none';
     document.getElementById('flashcards').style.display = 'block';
-    document.getElementById('category-name').textContent = categoryNames[currentCategory];
     loadCards();
 }
 
@@ -239,7 +238,7 @@ async function loadCards() {
             }
         }
 
-        shuffleArray(flashcards);
+        prioritizeWeakCards(flashcards);
         currentIndex = 0;
         hasAnsweredCurrent = false;
         document.getElementById('loading').style.display = 'none';
@@ -287,6 +286,23 @@ function shuffleArray(array) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
+}
+
+/**
+ * Sort flashcards to prioritize cards with more wrong answers
+ * Cards are shuffled first, then sorted by wrongness score
+ * @param {Array} cards - Array of flashcard objects
+ */
+function prioritizeWeakCards(cards) {
+    // First shuffle to ensure randomness within priority groups
+    shuffleArray(cards);
+
+    // Sort by wrongness score (wrong - correct), higher scores first
+    cards.sort((a, b) => {
+        const scoreA = a.wrong - a.correct;
+        const scoreB = b.wrong - b.correct;
+        return scoreB - scoreA;
+    });
 }
 
 // ============================================================================

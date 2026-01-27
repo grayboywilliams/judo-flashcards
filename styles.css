@@ -422,22 +422,24 @@ select option {
 }
 
 .mark-btn.correct {
-    background: #4cd964;
-    color: white;
+    background: linear-gradient(135deg, #2d5a3d 0%, #1e3d29 100%);
+    color: #a8d4b8;
+    border: 2px solid #3d7a52;
 }
 
 .mark-btn.correct:hover {
-    background: #3cb853;
+    background: linear-gradient(135deg, #3d7a52 0%, #2d5a3d 100%);
     transform: scale(1.05);
 }
 
 .mark-btn.wrong {
-    background: #ff3b30;
-    color: white;
+    background: linear-gradient(135deg, #5a2d2d 0%, #3d1e1e 100%);
+    color: #d4a8a8;
+    border: 2px solid #7a3d3d;
 }
 
 .mark-btn.wrong:hover {
-    background: #e0342b;
+    background: linear-gradient(135deg, #7a3d3d 0%, #5a2d2d 100%);
     transform: scale(1.05);
 }
 
