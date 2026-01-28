@@ -204,23 +204,6 @@ select option {
 }
 
 
-/* Icon-enhanced buttons */
-.btn-back::before {
-    content: '← ';
-}
-
-.btn-shuffle::before {
-    content: '🔀 ';
-}
-
-.btn-reset::before {
-    content: '↻ ';
-}
-
-.btn-clear::before {
-    content: '🗑️ ';
-}
-
 /* ============================================================================
    STATISTICS DISPLAY
    ============================================================================ */
