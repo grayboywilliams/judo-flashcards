@@ -342,7 +342,7 @@ async function loadCards(forceNew = false) {
                 const idxB = orderMap.has(b.front) ? orderMap.get(b.front) : Infinity;
                 return idxA - idxB;
             });
-            currentIndex = session.currentIndex;
+            currentIndex = Math.min(session.currentIndex + 1, flashcards.length - 1);
         } else {
             prioritizeWeakCards(flashcards);
             currentIndex = 0;
