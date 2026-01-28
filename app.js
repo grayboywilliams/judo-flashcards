@@ -329,6 +329,7 @@ function startPractice() {
 function goBack() {
     document.getElementById('flashcards').style.display = 'none';
     document.getElementById('landing').style.display = 'block';
+    updateBeltDisplay();
 }
 
 // ============================================================================
@@ -462,6 +463,10 @@ function flipToBack() {
     if (!isFlipped) {
         document.getElementById('flashcard').classList.add('flipped');
         isFlipped = true;
+        // Blur any focused element to prevent button auto-focus on mobile
+        if (document.activeElement) {
+            document.activeElement.blur();
+        }
     }
 }
 
