@@ -344,7 +344,6 @@ function goBack() {
 async function loadCards(forceNew = false) {
     try {
         const files = getCategoryFiles(currentCategory);
-        const stats = loadStats();
         flashcards = [];
 
         for (const file of files) {
@@ -459,10 +458,14 @@ function prioritizeWeakCards(cards) {
  * Flip card to show the back (answer side)
  * Only flips if not already flipped
  */
+/** @type {number} Timestamp of last flip, used to prevent accidental button taps */
+let lastFlipTime = 0;
+
 function flipToBack() {
     if (!isFlipped) {
         document.getElementById('flashcard').classList.add('flipped');
         isFlipped = true;
+        lastFlipTime = Date.now();
         // Blur any focused element to prevent button auto-focus on mobile
         if (document.activeElement) {
             document.activeElement.blur();
@@ -478,6 +481,12 @@ function flipToBack() {
  */
 function markAnswer(isCorrect, event) {
     if (event) event.stopPropagation();
+
+    // Ignore taps that happen too soon after flip (prevents accidental taps on mobile)
+    if (Date.now() - lastFlipTime < 400) {
+        return;
+    }
+
     if (hasAnsweredCurrent) {
         nextCard();
         return;
