@@ -25,6 +25,9 @@ let hasAnsweredCurrent = false;
 /** @constant {string} localStorage key for storing statistics */
 const STORAGE_KEY = 'judo_flashcard_stats';
 
+/** @constant {string} localStorage key for storing session state */
+const SESSION_KEY = 'judo_flashcard_session';
+
 // ============================================================================
 // BELT CONFIGURATION
 // ============================================================================
@@ -127,6 +130,51 @@ function getCategoryFiles(category) {
 
 /** @constant {number} Maximum number of answers to track per card */
 const MAX_HISTORY = 5;
+
+// ============================================================================
+// SESSION PERSISTENCE
+// ============================================================================
+
+/**
+ * Save current session state to localStorage
+ */
+function saveSession() {
+    const session = {
+        category: currentCategory,
+        belt: currentBelt,
+        currentIndex: currentIndex,
+        cardOrder: flashcards.map(c => c.front)
+    };
+    try {
+        localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+    } catch (e) {
+        console.error('Failed to save session:', e);
+    }
+}
+
+/**
+ * Load session state from localStorage
+ * @returns {Object|null} Session object or null if none exists
+ */
+function loadSession() {
+    try {
+        const data = localStorage.getItem(SESSION_KEY);
+        return data ? JSON.parse(data) : null;
+    } catch (e) {
+        return null;
+    }
+}
+
+/**
+ * Clear saved session
+ */
+function clearSession() {
+    try {
+        localStorage.removeItem(SESSION_KEY);
+    } catch (e) {
+        console.error('Failed to clear session:', e);
+    }
+}
 
 /**
  * Load statistics from localStorage
@@ -254,8 +302,9 @@ function goBack() {
 /**
  * Load flashcards from CSV files
  * Parses CSV, merges with statistics, shuffles, and displays cards
+ * @param {boolean} forceNew - If true, ignores saved session and starts fresh
  */
-async function loadCards() {
+async function loadCards(forceNew = false) {
     try {
         const files = getCategoryFiles(currentCategory);
         const stats = loadStats();
@@ -271,7 +320,7 @@ async function loadCards() {
                 if (line) {
                     const values = parseCSVLine(line);
                     if (values.length >= 2) {
-                        const cardStats = stats[values[0]] || { correct: 0, wrong: 0 };
+                        const cardStats = getCardStats(values[0]);
                         flashcards.push({
                             front: values[0],
                             back: values[1],
@@ -283,8 +332,23 @@ async function loadCards() {
             }
         }
 
-        prioritizeWeakCards(flashcards);
-        currentIndex = 0;
+        // Check for saved session
+        const session = loadSession();
+        if (!forceNew && session && session.category === currentCategory && session.belt === currentBelt) {
+            // Restore card order from session
+            const orderMap = new Map(session.cardOrder.map((front, idx) => [front, idx]));
+            flashcards.sort((a, b) => {
+                const idxA = orderMap.has(a.front) ? orderMap.get(a.front) : Infinity;
+                const idxB = orderMap.has(b.front) ? orderMap.get(b.front) : Infinity;
+                return idxA - idxB;
+            });
+            currentIndex = session.currentIndex;
+        } else {
+            prioritizeWeakCards(flashcards);
+            currentIndex = 0;
+            saveSession();
+        }
+
         hasAnsweredCurrent = false;
         document.getElementById('loading').style.display = 'none';
         document.getElementById('app').style.display = 'block';
@@ -389,6 +453,9 @@ function markAnswer(isCorrect, event) {
         card.wrong++;
     }
     updateCardStatsDisplay();
+
+    // Save session progress
+    saveSession();
 
     // Auto-advance to next card
     setTimeout(() => nextCard(), 150);
