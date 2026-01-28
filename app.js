@@ -596,9 +596,7 @@ function resetProgress() {
 function handleCardClick(event) {
     // Don't flip if clicking on mark buttons
     if (event.target.classList.contains('mark-btn')) return;
-    if (!isFlipped) {
-        flipToBack();
-    }
+    flipCard();
 }
 
 // ============================================================================
