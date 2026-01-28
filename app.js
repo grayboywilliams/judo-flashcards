@@ -136,29 +136,39 @@ const MAX_HISTORY = 5;
 // ============================================================================
 
 /**
+ * Get the session key for a specific belt and category
+ * @param {string} belt - Belt rank
+ * @param {string} category - Study category
+ * @returns {string} Session storage key
+ */
+function getSessionKey(belt, category) {
+    return `${SESSION_KEY}_${belt}_${category}`;
+}
+
+/**
  * Save current session state to localStorage
  */
 function saveSession() {
     const session = {
-        category: currentCategory,
-        belt: currentBelt,
         currentIndex: currentIndex,
         cardOrder: flashcards.map(c => c.front)
     };
     try {
-        localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+        const key = getSessionKey(currentBelt, currentCategory);
+        localStorage.setItem(key, JSON.stringify(session));
     } catch (e) {
         console.error('Failed to save session:', e);
     }
 }
 
 /**
- * Load session state from localStorage
+ * Load session state from localStorage for current belt and category
  * @returns {Object|null} Session object or null if none exists
  */
 function loadSession() {
     try {
-        const data = localStorage.getItem(SESSION_KEY);
+        const key = getSessionKey(currentBelt, currentCategory);
+        const data = localStorage.getItem(key);
         return data ? JSON.parse(data) : null;
     } catch (e) {
         return null;
@@ -166,11 +176,12 @@ function loadSession() {
 }
 
 /**
- * Clear saved session
+ * Clear saved session for current belt and category
  */
 function clearSession() {
     try {
-        localStorage.removeItem(SESSION_KEY);
+        const key = getSessionKey(currentBelt, currentCategory);
+        localStorage.removeItem(key);
     } catch (e) {
         console.error('Failed to clear session:', e);
     }
@@ -332,9 +343,9 @@ async function loadCards(forceNew = false) {
             }
         }
 
-        // Check for saved session
+        // Check for saved session for this category
         const session = loadSession();
-        if (!forceNew && session && session.category === currentCategory && session.belt === currentBelt) {
+        if (!forceNew && session && session.cardOrder) {
             // Restore card order from session
             const orderMap = new Map(session.cardOrder.map((front, idx) => [front, idx]));
             flashcards.sort((a, b) => {
