@@ -274,12 +274,37 @@ function applyBeltTheme() {
 
 /**
  * Update the belt display when category is selected
+ * Shows progress for the selected category
  */
 function updateBeltDisplay() {
     const category = document.getElementById('category').value;
     const beltDisplay = document.getElementById('belt-display');
+    const beltProgress = document.getElementById('belt-progress');
+
     if (category) {
         beltDisplay.style.display = 'block';
+
+        // Load session for this category to get progress
+        const sessionKey = getSessionKey(currentBelt, category);
+        let progress = 0;
+
+        try {
+            const data = localStorage.getItem(sessionKey);
+            if (data) {
+                const session = JSON.parse(data);
+                if (session.cardOrder && session.cardOrder.length > 0) {
+                    // Add 1 because we show the card after the last answered
+                    progress = ((session.currentIndex + 1) / session.cardOrder.length) * 100;
+                }
+            }
+        } catch (e) {
+            progress = 0;
+        }
+
+        // Apply belt color and progress width
+        const belt = belts[currentBelt];
+        beltProgress.style.background = `linear-gradient(90deg, ${belt.theme.primary} 0%, ${belt.theme.dark} 100%)`;
+        beltProgress.style.width = `${progress}%`;
     } else {
         beltDisplay.style.display = 'none';
     }
