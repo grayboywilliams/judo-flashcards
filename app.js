@@ -458,18 +458,23 @@ function prioritizeWeakCards(cards) {
  * Flip card to show the back (answer side)
  * Only flips if not already flipped
  */
-/** @type {number} Timestamp of last flip, used to prevent accidental button taps */
-let lastFlipTime = 0;
-
 function flipToBack() {
     if (!isFlipped) {
+        // Disable button interactions during flip to prevent accidental taps on mobile
+        const markButtons = document.getElementById('mark-buttons');
+        markButtons.style.pointerEvents = 'none';
+
         document.getElementById('flashcard').classList.add('flipped');
         isFlipped = true;
-        lastFlipTime = Date.now();
-        // Blur any focused element to prevent button auto-focus on mobile
-        if (document.activeElement) {
-            document.activeElement.blur();
-        }
+
+        // Re-enable buttons after flip animation completes
+        setTimeout(() => {
+            markButtons.style.pointerEvents = '';
+            // Blur any focused element
+            if (document.activeElement) {
+                document.activeElement.blur();
+            }
+        }, 400);
     }
 }
 
@@ -481,12 +486,6 @@ function flipToBack() {
  */
 function markAnswer(isCorrect, event) {
     if (event) event.stopPropagation();
-
-    // Ignore taps that happen too soon after flip (prevents accidental taps on mobile)
-    if (Date.now() - lastFlipTime < 400) {
-        return;
-    }
-
     if (hasAnsweredCurrent) {
         nextCard();
         return;
