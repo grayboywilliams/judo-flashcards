@@ -4,7 +4,7 @@ A simple flashcard app for studying judo terminology and techniques.
 
 ## Features
 
-- Study by category (Recite or Perform)
+- Study by category (Vocab or Perform)
 - Tracks correct/wrong answers
 - Prioritizes cards you've gotten wrong
 - Progress saved in browser
@@ -26,7 +26,7 @@ A simple flashcard app for studying judo terminology and techniques.
 
 ## Adding Cards
 
-Cards are stored as CSV files in `study/[belt]/recite.csv` and `perform.csv`:
+Cards are stored as CSV files in `study/[belt]/vocab.csv` and `perform.csv`:
 
 ```csv
 Question,Answer
