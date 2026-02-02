@@ -582,37 +582,43 @@ function updateProgress() {
 
 /**
  * Update navigation button states
- * Disables prev/next buttons at deck boundaries
  */
 function updateNavigation() {
-    document.getElementById('prev-btn').disabled = currentIndex === 0;
-    document.getElementById('next-btn').disabled = currentIndex === flashcards.length - 1 || flashcards.length === 0;
+    const hasCards = flashcards.length > 0;
+    document.getElementById('prev-btn').disabled = !hasCards;
+    document.getElementById('next-btn').disabled = !hasCards;
 }
 
 /**
  * Navigate to the previous card in the deck
- * Updates card, progress, and navigation state
+ * Wraps to last card if at the beginning
  */
 function previousCard() {
+    if (flashcards.length === 0) return;
     if (currentIndex > 0) {
         currentIndex--;
-        updateCard();
-        updateProgress();
-        updateNavigation();
+    } else {
+        currentIndex = flashcards.length - 1;
     }
+    updateCard();
+    updateProgress();
+    updateNavigation();
 }
 
 /**
  * Navigate to the next card in the deck
- * Updates card, progress, and navigation state
+ * Wraps to first card if at the end
  */
 function nextCard() {
+    if (flashcards.length === 0) return;
     if (currentIndex < flashcards.length - 1) {
         currentIndex++;
-        updateCard();
-        updateProgress();
-        updateNavigation();
+    } else {
+        currentIndex = 0;
     }
+    updateCard();
+    updateProgress();
+    updateNavigation();
 }
 
 /**
