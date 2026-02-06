@@ -543,13 +543,38 @@ function updateCardStatsDisplay() {
 }
 
 /**
+ * Shrink text to fit within available space
+ * @param {HTMLElement} element - The text element to fit
+ * @param {number} maxFontSize - Maximum font size in pixels
+ * @param {number} minFontSize - Minimum font size in pixels
+ * @param {number} maxHeight - Maximum height in pixels for the text
+ */
+function fitTextToHeight(element, maxFontSize, minFontSize, maxHeight) {
+    let fontSize = maxFontSize;
+    element.style.fontSize = fontSize + 'px';
+
+    while (element.scrollHeight > maxHeight && fontSize > minFontSize) {
+        fontSize -= 1;
+        element.style.fontSize = fontSize + 'px';
+    }
+}
+
+/**
  * Update the text content of the current card
  * Sets question, answer, and statistics
  */
 function updateCardContent() {
     const card = flashcards[currentIndex];
-    document.getElementById('front-text').textContent = card.front;
-    document.getElementById('back-text').textContent = card.back;
+    const frontText = document.getElementById('front-text');
+    const backText = document.getElementById('back-text');
+
+    frontText.textContent = card.front;
+    backText.textContent = card.back;
+
+    // Fit text to available space (card is 350px, leave room for padding/stats/buttons)
+    fitTextToHeight(frontText, 24, 10, 240);
+    fitTextToHeight(backText, 20, 10, 150);
+
     updateCardStatsDisplay();
 }
 
