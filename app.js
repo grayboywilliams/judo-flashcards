@@ -16,7 +16,7 @@ let currentIndex = 0;
 /** @type {boolean} Whether the current card is showing the back */
 let isFlipped = false;
 
-/** @type {string} Current study category: 'all', 'vocab', or 'perform' */
+/** @type {string} Current study category: 'all', 'vocab', or 'technique' */
 let currentCategory = 'all';
 
 /** @type {boolean} Whether the current card has been answered */
@@ -43,7 +43,7 @@ const belts = {
         path: 'study/gokyu',
         cssClass: 'belt-gokyu',
         theme: { primary: '#ffd700', dark: '#ccac00' },
-        files: { vocab: 'vocab.csv', perform: 'perform.csv' },
+        files: { vocab: 'vocab.csv', technique: 'technique.csv' },
         enabled: true
     },
     yonkyu: {
@@ -52,7 +52,7 @@ const belts = {
         path: 'study/yonkyu',
         cssClass: 'belt-yonkyu',
         theme: { primary: '#ff8c00', dark: '#cc6600' },
-        files: { vocab: 'vocab.csv', perform: 'perform.csv' },
+        files: { vocab: 'vocab.csv', technique: 'technique.csv' },
         enabled: false
     },
     sankyu: {
@@ -61,7 +61,7 @@ const belts = {
         path: 'study/sankyu',
         cssClass: 'belt-sankyu',
         theme: { primary: '#228b22', dark: '#196619' },
-        files: { vocab: 'vocab.csv', perform: 'perform.csv' },
+        files: { vocab: 'vocab.csv', technique: 'technique.csv' },
         enabled: false
     },
     nikyu: {
@@ -70,7 +70,7 @@ const belts = {
         path: 'study/nikyu',
         cssClass: 'belt-nikyu',
         theme: { primary: '#4169e1', dark: '#3253b3' },
-        files: { vocab: 'vocab.csv', perform: 'perform.csv' },
+        files: { vocab: 'vocab.csv', technique: 'technique.csv' },
         enabled: false
     },
     ikkyu: {
@@ -79,7 +79,7 @@ const belts = {
         path: 'study/ikkyu',
         cssClass: 'belt-ikkyu',
         theme: { primary: '#8b4513', dark: '#69340e' },
-        files: { vocab: 'vocab.csv', perform: 'perform.csv' },
+        files: { vocab: 'vocab.csv', technique: 'technique.csv' },
         enabled: false
     },
     shodan: {
@@ -88,7 +88,7 @@ const belts = {
         path: 'study/shodan',
         cssClass: 'belt-shodan',
         theme: { primary: '#2a2a2a', dark: '#0a0a0a' },
-        files: { vocab: 'vocab.csv', perform: 'perform.csv' },
+        files: { vocab: 'vocab.csv', technique: 'technique.csv' },
         enabled: false
     }
 };
@@ -103,7 +103,7 @@ const currentBelt = 'gokyu';
 const categoryNames = {
     'all': 'All',
     'vocab': 'Vocab',
-    'perform': 'Perform'
+    'technique': 'Technique'
 };
 
 // ============================================================================
@@ -112,7 +112,7 @@ const categoryNames = {
 
 /**
  * Get CSV file paths for a given category
- * @param {string} category - Category type: 'all', 'vocab', or 'perform'
+ * @param {string} category - Category type: 'all', 'vocab', or 'technique'
  * @returns {string[]} Array of file paths
  */
 function getCategoryFiles(category) {

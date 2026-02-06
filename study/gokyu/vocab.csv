@@ -12,6 +12,10 @@ Ai-yotsu,Same side grip
 Same side grip,Ai-yotsu
 Kenka-yotsu,Opposite side grip
 Opposite side grip,Kenka-yotsu
+Tsurite,Lapel hand (lifting hand)
+Lapel hand (lifting hand),Tsurite
+Hikite,Sleeve hand (pulling hand)
+Sleeve hand (pulling hand),Hikite
 Nage waza,Throwing techniques
 Throwing techniques,Nage waza
 Ashi waza,Foot/leg techniques
@@ -34,15 +38,15 @@ Most scored throw in competition,Seoi nage
 Good transition throw into Seoi or Uchi mata,Ouchi gari
 Koshi waza,Hip techniques
 Hip techniques,Koshi waza
-Uki goshi,Half hip throw
-Half hip throw,Uki goshi
+Uki goshi,Floating hip throw
+Floating hip throw,Uki goshi
 O goshi,Major hip throw
 Major hip throw,O goshi
 Bogyo,Throw defense
 Throw defense,Bogyo
 Defense against O goshi,Inside leg jump around
 Defense against Seoi,Outside leg jump around
-Defense against Osoto gari,Step away
+Defense against Osoto gari,Push back and hip check
 Katame waza,Grappling techniques
 Grappling techniques,Katame waza
 Osaekomi waza,Holding techniques
@@ -82,8 +86,8 @@ Tsugi ashi,Following foot walking
 Following foot walking,Tsugi ashi
 Ayumi ashi,Normal walking
 Normal walking,Ayumi ashi
-Tai sabaki,Right and left
-Right and left,Tai sabaki
+Tai sabaki,Body turning/rotation
+Body turning/rotation,Tai sabaki
 Kiyotsuke,Attention!
 Attention!,Kiyotsuke
 Rei,Bow
@@ -167,7 +171,7 @@ Nine,Ku
 Ku,Nine
 Ten,Ju
 Ju,Ten
-Name the three parts of unarmed combat in English and Japanese,"Throwing techniques (Nage waza), grappling techniques (Katame waza), and striking techniques (Atemi waza)"
+Name the three parts of unarmed combat in English and Japanese,"Striking techniques (Atemi waza), throwing techniques (Nage waza), grappling techniques (Katame waza), and "
 Name the three parts of a judo throw in English and Japanese,"Off balance (Kuzushi), entry (Tsukuri), completion (Kake)"
 List the adult belt ranks in order by color,"White, yellow, orange, green, blue, brown, black (10 degrees)"
 Kesa gatame,Scarf hold
