@@ -7,7 +7,7 @@
 // STATE MANAGEMENT
 // ============================================================================
 
-/** @type {Array<{front: string, back: string, correct: number, wrong: number}>} */
+/** @type {Array<{front: string, back: string, correct: number, wrong: number, category: string}>} */
 let flashcards = [];
 
 /** @type {number} Current card index in the deck */
@@ -351,6 +351,10 @@ async function loadCards(forceNew = false) {
             const csvText = await response.text();
             const lines = csvText.split('\n');
 
+            // Derive category from filename (e.g., 'vocab.csv' -> 'Vocab')
+            const fileName = file.split('/').pop().replace('.csv', '');
+            const cardCategory = categoryNames[fileName] || fileName;
+
             for (let i = 1; i < lines.length; i++) {
                 const line = lines[i].trim();
                 if (line) {
@@ -361,7 +365,8 @@ async function loadCards(forceNew = false) {
                             front: values[0],
                             back: values[1],
                             correct: cardStats.correct,
-                            wrong: cardStats.wrong
+                            wrong: cardStats.wrong,
+                            category: cardCategory
                         });
                     }
                 }
@@ -570,6 +575,11 @@ function updateCardContent() {
 
     frontText.textContent = card.front;
     backText.textContent = card.back;
+
+    // Show category label only in "All" mode
+    const categoryLabel = currentCategory === 'all' ? card.category : '';
+    document.getElementById('card-category-front').textContent = categoryLabel;
+    document.getElementById('card-category-back').textContent = categoryLabel;
 
     // Fit text to available space (card is 350px, leave room for padding/stats/buttons)
     fitTextToHeight(frontText, 24, 10, 240);

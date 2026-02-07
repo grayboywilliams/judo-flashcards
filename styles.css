@@ -361,6 +361,15 @@ select option {
     word-wrap: break-word;
 }
 
+.card-category {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 0.8em;
+    opacity: 0.6;
+    color: #bbb;
+}
+
 .card-stats {
     position: absolute;
     top: 15px;
