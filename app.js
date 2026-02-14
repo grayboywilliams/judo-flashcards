@@ -53,7 +53,7 @@ const belts = {
         cssClass: 'belt-yonkyu',
         theme: { primary: '#ff8c00', dark: '#cc6600' },
         files: { vocab: 'vocab.csv', technique: 'technique.csv' },
-        enabled: false
+        enabled: true
     },
     sankyu: {
         name: 'Sankyu',
@@ -93,8 +93,8 @@ const belts = {
     }
 };
 
-/** @constant {string} Currently active belt rank */
-const currentBelt = 'gokyu';
+/** @type {string} Currently active belt rank */
+let currentBelt = 'gokyu';
 
 /**
  * Display names for each category type
@@ -273,19 +273,34 @@ function applyBeltTheme() {
 }
 
 /**
+ * Parse the combined belt-category value from the select element
+ * @param {string} value - Combined value like 'gokyu-vocab'
+ * @returns {{belt: string, category: string}|null} Parsed belt and category
+ */
+function parseBeltCategory(value) {
+    if (!value) return null;
+    const dashIndex = value.indexOf('-');
+    if (dashIndex === -1) return null;
+    return {
+        belt: value.substring(0, dashIndex),
+        category: value.substring(dashIndex + 1)
+    };
+}
+
+/**
  * Update the belt display when category is selected
  * Shows progress for the selected category
  */
 function updateBeltDisplay() {
-    const category = document.getElementById('category').value;
+    const parsed = parseBeltCategory(document.getElementById('category').value);
     const beltDisplay = document.getElementById('belt-display');
     const beltProgress = document.getElementById('belt-progress');
 
-    if (category) {
+    if (parsed) {
         beltDisplay.style.display = 'block';
 
         // Load session for this category to get progress
-        const sessionKey = getSessionKey(currentBelt, category);
+        const sessionKey = getSessionKey(parsed.belt, parsed.category);
         let progress = 0;
 
         try {
@@ -302,7 +317,7 @@ function updateBeltDisplay() {
         }
 
         // Apply belt color and progress width
-        const belt = belts[currentBelt];
+        const belt = belts[parsed.belt];
         beltProgress.style.background = `linear-gradient(90deg, ${belt.theme.primary} 0%, ${belt.theme.dark} 100%)`;
         beltProgress.style.width = `${progress}%`;
     } else {
@@ -315,8 +330,10 @@ function updateBeltDisplay() {
  * Switches from landing page to flashcard view
  */
 function startPractice() {
-    currentCategory = document.getElementById('category').value;
-    if (!currentCategory) return;
+    const parsed = parseBeltCategory(document.getElementById('category').value);
+    if (!parsed) return;
+    currentBelt = parsed.belt;
+    currentCategory = parsed.category;
     document.getElementById('landing').style.display = 'none';
     document.getElementById('flashcards').style.display = 'block';
     applyBeltTheme();
@@ -576,8 +593,7 @@ function updateCardContent() {
     frontText.textContent = card.front;
     backText.textContent = card.back;
 
-    // Show category label only in "All" mode
-    const categoryLabel = currentCategory === 'all' ? card.category : '';
+    const categoryLabel = card.category;
     document.getElementById('card-category-front').textContent = categoryLabel;
     document.getElementById('card-category-back').textContent = categoryLabel;
 
@@ -677,6 +693,32 @@ function handleCardClick(event) {
     if (event.target.classList.contains('mark-btn')) return;
     flipCard();
 }
+
+// ============================================================================
+// INITIALIZATION
+// ============================================================================
+
+/**
+ * Populate the category dropdown from the belts config
+ * Only includes belts with enabled: true
+ */
+function populateCategorySelect() {
+    const select = document.getElementById('category');
+    const categories = ['vocab', 'technique', 'all'];
+    const categoryLabels = { vocab: 'Vocab', technique: 'Technique', all: 'All' };
+
+    for (const [key, belt] of Object.entries(belts)) {
+        if (!belt.enabled) continue;
+        for (const cat of categories) {
+            const option = document.createElement('option');
+            option.value = `${key}-${cat}`;
+            option.textContent = `${belt.name} (${belt.color}) - ${categoryLabels[cat]}`;
+            select.appendChild(option);
+        }
+    }
+}
+
+populateCategorySelect();
 
 // ============================================================================
 // EVENT LISTENERS
