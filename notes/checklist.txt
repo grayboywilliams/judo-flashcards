@@ -9,7 +9,7 @@ Throws (Nage Waza)
 ✓ Uchi Mata
 ✓ Ko Soto Gari
 ◦ Ko Uchi Gari
-◦ Okuri Ashi Barai
+✓ Okuri Ashi Barai
 ◦ Koshi Guruma
 ◦ Tsurikomi Goshi
 
@@ -27,7 +27,7 @@ Shime Waza (Chokes)
 
 Kansetsu Waza (Armlocks)
 ✓ Arm Bar Drill A
-◦ Arm Bar Drill B
+✓ Arm Bar Drill B
 ◦ Technical Drill
 ◦ Compression Juji
 ◦ Near & Far Arm Switch
