@@ -33,7 +33,7 @@ Kansetsu Waza (Armlocks)
 ◦ Near & Far Arm Switch
 ◦ Juji Roll
 ◦ Face Down Juji
-◦ Uke facedown - Sankaku Gatame
+✓ Uke facedown - Sankaku Gatame
 
 Ne Waza – Turtle
 ◦ Gut Wrench
