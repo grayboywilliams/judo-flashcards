@@ -8,7 +8,7 @@ Throws (Nage Waza)
 ✓ Tai Otoshi
 ✓ Uchi Mata
 ✓ Ko Soto Gari
-◦ Ko Uchi Gari
+✓ Ko Uchi Gari
 ✓ Okuri Ashi Barai
 ◦ Koshi Guruma
 ◦ Tsurikomi Goshi
