@@ -11,7 +11,7 @@ Throws (Nage Waza)
 ✓ Ko Uchi Gari
 ✓ Okuri Ashi Barai
 ◦ Koshi Guruma
-◦ Tsurikomi Goshi
+✓ Tsurikomi Goshi
 
 Counters / Combos
 ◦ Counter Osoto Gari with Osoto Gaeshi
