@@ -1,85 +1,49 @@
-Sankyu (Green) notes:
-
-Minimum class attendance
-◦ 80 classes as orange belt
+Yonkyu (Orange) notes:
 
 Standing (Tachi Waza)
+◦ Cross grip lapel
 
 Throws (Nage Waza)
+✓ Harai Goshi
+✓ Tai Otoshi
+✓ Uchi Mata
+✓ Ko Soto Gari
+✓ Ko Uchi Gari
+✓ Okuri Ashi Barai
+✓ Koshi Guruma
+✓ Tsurikomi Goshi
 
-Ashi Waza
-◦ Kosoto Gake
-◦ Ashi Guruma
-◦ Harai Tsuri Komi Ashi
+Counters / Combos
+◦ Counter Osoto Gari with Osoto Gaeshi
+◦ Counter O Goshi with outside leg jump around to De Ashi Barai
+✓ Seoi Nage bogyo into drop seoi
+✓ Seoi Nage blocked into kouchi makikomi
 
-Koshi Waza
-◦ Tsuri Goshi
-◦ Hane Goshi
+Shime Waza (Chokes)
+✓ Gyaku Juji Jime
+✓ Sankaku Jime
 
-Te Waza
-◦ Kata Guruma
+Kansetsu Waza (Armlocks)
+✓ Arm Bar Drill A
+✓ Arm Bar Drill B
+◦ Technical Drill
+◦ Compression Juji
+◦ Near & Far Arm Switch
+✓ Juji Roll
+◦ Face Down Juji
+✓ Uke facedown - Sankaku Gatame
+✓ Neck Stack (from Uki Gatame armbar)
+✓ Kuzuri Kesa into Armbar
 
-(Yoko) Sutemi Waza
-✓ Tomoe Nage & Yoko Tomoe Nage
-◦ Yoko Otoshi
+Ne Waza – Turtle
+✓ Gut Wrench
+✓ Double hand belt pull drill
+◦ Slap; pass; and roll into Ushiro Kesa Gatame
+✓ Sankaku Osaekomi
 
-Bogyo
-◦ Hip in hard against Koshi Waza
-◦ Rip out against a forward throw
-◦ Rip out against Ouchi Gari
-
-Kaeshi-no-waza
-◦ Counter Ippon Seoi with Ura Nage
-◦ Counter Uchi Mata with Uchi Mata Sukashi
-
-Kumi Kata
-◦ Same side sleeve-lapel grip: Tai Otoshi, Seoi Otoshi, Drop Seoi, etc.
-
-Ne Waza
-
-Katame Waza – Osaekomi Waza
-◦ Kuzure Kesa Gatame Flow Drill
-  ◦ Kuzure Kesa Gatame
-  ◦ Mune Gatame
-  ◦ Ushiro Kesa Gatame
-  ◦ Tate Shiho Gatame
-  ◦ Uki Gatame
-  ◦ Juji Gatame
-◦ Hon Kesa Gatame Drill
-  ◦ Hon Kesa Gatame
-  ◦ Makura Kesa Gatame
-  ◦ Kuzure Ude Garami
-  ◦ Ashi Ude Garami
-  ◦ Ashi Ude Gatame
-
-Shime Waza
-◦ Kata Juji Jime
-
-Hairi Waza – Attack the Turtle
-◦ Arm In Series: reach in head pull turnover / pull head through the hole
-
-Attacks with Uke in Your Guard
-◦ Scissor sweep
-◦ Ude Garami
-
-Guard Passes / Attacks from the Guard
-◦ Knee Slicer Guard Pass
-◦ Pants pull pass to knee on belly to near side Juji Gatame
-
-Fusegi
-◦ Hitchhiker's escape to Juji Gatame
-
-Ukemi Waza & Misc.
-◦ Maware (180-degree turns)
-◦ No hand forward ukemi
-
-Nage No Kata
-◦ Set 1 as uke
-
-General Information
-◦ Name the three divisions of Katame Waza in English and Japanese
-◦ Name the two principles of Kodokan Judo as defined by Dr. Kano
-◦ State the ultimate goal of judo as defined by Dr. Kano
-
-Competition
-◦ Competition achievements will be considered for promotion credit
+Ne Waza – Guard / Half Guard
+◦ Half guard - Uke grabs own belt
+✓ Half guard - Uke grabs tori over shoulder
+✓ Half guard - Uke grabs tori around torso
+✓ Half guard - A frame escape
+✓ Guard - Scissor sweep and guard pass
