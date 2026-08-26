@@ -29,7 +29,7 @@ Kansetsu Waza (Armlocks)
 ◦ Technical Drill
 ◦ Compression Juji
 ◦ Near & Far Arm Switch
-◦ Juji Roll
+✓ Juji Roll
 ◦ Face Down Juji
 ✓ Uke facedown - Sankaku Gatame
 ✓ Neck Stack (from Uki Gatame armbar)
