@@ -62,7 +62,7 @@ const belts = {
         cssClass: 'belt-sankyu',
         theme: { primary: '#228b22', dark: '#196619' },
         files: { vocab: 'vocab.csv', technique: 'technique.csv' },
-        enabled: false
+        enabled: true
     },
     nikyu: {
         name: 'Nikyu',
@@ -757,4 +757,3 @@ document.addEventListener('keydown', function(event) {
         startPractice();
     }
 });
-
