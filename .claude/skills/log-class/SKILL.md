@@ -9,9 +9,9 @@ Log a judo class session. The user will provide what they did in class as $ARGUM
 
 ## Current level
 
-- **Belt level**: yonkyu (orange)
+- **Belt level**: sankyu (green)
 - **Checklist file**: `notes/checklist.txt`
-- **Technique CSV**: `study/yonkyu/technique.csv`
+- **Technique CSV**: `study/sankyu/technique.csv`
 
 When advancing to the next belt, update these three values.
 
