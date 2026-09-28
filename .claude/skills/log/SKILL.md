@@ -1,5 +1,5 @@
 ---
-name: log-class
+name: log
 description: Log a judo class session - update class notes, checklist, and technique files
 disable-model-invocation: true
 argument-hint: date - what we did
@@ -21,8 +21,8 @@ Ask the user the following questions (use AskUserQuestion):
 
 1. **Date and summary**: If not provided in the arguments, ask for the date (M/D format) and a short summary of what was covered in class.
 2. **Duration**: Ask how long the class was, defaulting to 1.5 hours.
-3. **New techniques**: Ask if any new techniques for the current level were learned that should be checked off. Show the unchecked items (marked with ◦) from the checklist file as options.
-4. **Technique details**: For any newly checked techniques, ask for a short description of how to perform them (for the technique CSV flashcard back).
+3. **New techniques**: Treat every explicitly named technique, drill, variation, combination, grip, escape, or turnover as learned unless the user says it was review only. Ask only when that is ambiguous.
+4. **Technique details**: Treat parenthetical text as technique details for the technique CSV flashcard back. Ask for details only when a newly learned item has no description.
 
 ## Files to update
 
@@ -40,11 +40,15 @@ Ask the user the following questions (use AskUserQuestion):
 
 - Only update if new techniques were learned
 - Change ◦ to ✓ for any techniques the user confirms they learned
+- If a learned item is not in the photographed promotion syllabus, add it under `Additional Learned Techniques` and mark it ✓
+- Give separately named variations, combinations, grips, escapes, and turnovers their own checklist entries
 
 ### 3. Technique CSV (see current level above)
 
-- Only update if new techniques were learned AND the user provides descriptions
+- Add every learned technique even when it is not already in the promotion syllabus
 - Add or update rows in CSV format: `"Front","Back"` with the technique name and description
+- Use `Details not recorded yet.` when a learned item has no description rather than omitting it
+- Give separately named techniques or variations in parenthetical class notes their own rows
 - If the technique already exists with "(will add details later)", replace that placeholder with the real description
 
 ## Important notes
