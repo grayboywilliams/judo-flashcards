@@ -72,7 +72,7 @@ Uke in Your Guard
 ◦ Ude Garami
 
 Fusegi - Escapes
-◦ Hitchhiker's escape to Juji Gatame
+✓ Hitchhiker's escape to Juji Gatame
 
 Nage No Kata
 ◦ Set 1 as uke
@@ -106,3 +106,4 @@ Additional Learned Techniques
 ✓ Arm Grip Tai Otoshi
 ✓ Ippon Seoi Nage with Backstep
 ✓ Cross Face Turnover (Variation 4)
+✓ Neck Stack Escape
