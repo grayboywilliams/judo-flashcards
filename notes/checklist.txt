@@ -44,7 +44,7 @@ Kuzure Kesa Gatame Flow Drill
 ◦ Ushiro Kesa Gatame
 ◦ Tate Shiho Gatame
 ◦ Uki Gatame
-◦ Juji Gatame
+✓ Juji Gatame
 
 Kesa Gatame Drill
 ◦ Hon Kesa Gatame
@@ -107,3 +107,4 @@ Additional Learned Techniques
 ✓ Ippon Seoi Nage with Backstep
 ✓ Cross Face Turnover (Variation 4)
 ✓ Neck Stack Escape
+✓ De Ashi into Juji Gatame
