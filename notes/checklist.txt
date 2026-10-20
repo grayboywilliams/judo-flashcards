@@ -14,7 +14,7 @@ Nage Waza - Throwing Techniques
 Ashi Waza - Foot/Leg Techniques
 ◦ Kosoto Gake
 ✓ Ashi Guruma
-◦ Harai Tsuri Komi Ashi
+✓ Harai Tsuri Komi Ashi
 
 Koshi Waza - Hip Techniques
 ◦ Tsuri Goshi
@@ -39,7 +39,7 @@ Kaeshi-no-waza - Counters
 Katame Waza - Grappling Techniques
 
 Kuzure Kesa Gatame Flow Drill
-◦ Kuzure Kesa Gatame
+✓ Kuzure Kesa Gatame
 ◦ Mune Gatame
 ◦ Ushiro Kesa Gatame
 ◦ Tate Shiho Gatame
@@ -55,7 +55,7 @@ Kesa Gatame Drill
 ◦ Kata Gatame
 ◦ Kami Shiho Gatame
 ◦ Ushiro Kesa Gatame
-◦ (Kuzure) Yoko Shiho Gatame
+✓ (Kuzure) Yoko Shiho Gatame
 ◦ Tate Shiho Gatame
 ◦ Return to Kesa Gatame
 
@@ -69,7 +69,7 @@ Attack the Turtle
 ✓ Belt Wrap Butterfly Turn Over
 
 Uke in Your Guard
-◦ Ude Garami
+✓ Ude Garami
 
 Fusegi - Escapes
 ✓ Hitchhiker's escape to Juji Gatame
@@ -110,3 +110,6 @@ Additional Learned Techniques
 ✓ De Ashi into Juji Gatame
 ✓ Fat Man Roll
 ✓ Kata Gatame Triangle Choke
+✓ Ouchi Gari Arm Push and Pull
+✓ Half Guard Hug-the-Leg Escape
+✓ Half Guard Ude Garami
