@@ -17,7 +17,7 @@ Ashi Waza - Foot/Leg Techniques
 ✓ Harai Tsuri Komi Ashi
 
 Koshi Waza - Hip Techniques
-◦ Tsuri Goshi
+✓ Tsuri Goshi
 ◦ Hane Goshi
 
 Te Waza - Hand Techniques
