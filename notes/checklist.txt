@@ -34,7 +34,7 @@ Bogyo - Throw Defense
 
 Kaeshi-no-waza - Counters
 ◦ Counter Ippon Seoi with Ura Nage
-◦ Counter Uchi Mata with Uchi Mata Sukashi
+✓ Counter Uchi Mata with Uchi Mata Sukashi
 
 Katame Waza - Grappling Techniques
 
