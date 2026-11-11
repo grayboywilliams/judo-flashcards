@@ -47,12 +47,12 @@ Kuzure Kesa Gatame Flow Drill
 ✓ Juji Gatame
 
 Kesa Gatame Drill
-◦ Hon Kesa Gatame
+✓ Hon Kesa Gatame
 ◦ Makura Kesa Gatame
 ◦ Kuzure Ude Garami
 ◦ Ashi Ude Garami
 ◦ Ashi Ude Gatame
-◦ Kata Gatame
+✓ Kata Gatame
 ◦ Kami Shiho Gatame
 ◦ Ushiro Kesa Gatame
 ✓ (Kuzure) Yoko Shiho Gatame
@@ -116,3 +116,6 @@ Additional Learned Techniques
 ✓ O Soto Gari
 ✓ Scissor Sweep
 ✓ Ude Garami from Uke Palm Down
+✓ Kuzure Kami Shiho Gatame
+✓ Kesa Gatame into Kata Gatame
+✓ Kata Gatame into Kuzure Kami Shiho Gatame
