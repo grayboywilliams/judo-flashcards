@@ -14,10 +14,10 @@ Nage Waza - Throwing Techniques
 Ashi Waza - Foot/Leg Techniques
 ◦ Kosoto Gake
 ✓ Ashi Guruma
-◦ Harai Tsuri Komi Ashi
+✓ Harai Tsuri Komi Ashi
 
 Koshi Waza - Hip Techniques
-◦ Tsuri Goshi
+✓ Tsuri Goshi
 ◦ Hane Goshi
 
 Te Waza - Hand Techniques
@@ -34,28 +34,28 @@ Bogyo - Throw Defense
 
 Kaeshi-no-waza - Counters
 ◦ Counter Ippon Seoi with Ura Nage
-◦ Counter Uchi Mata with Uchi Mata Sukashi
+✓ Counter Uchi Mata with Uchi Mata Sukashi
 
 Katame Waza - Grappling Techniques
 
 Kuzure Kesa Gatame Flow Drill
-◦ Kuzure Kesa Gatame
+✓ Kuzure Kesa Gatame
 ◦ Mune Gatame
 ◦ Ushiro Kesa Gatame
 ◦ Tate Shiho Gatame
 ◦ Uki Gatame
-◦ Juji Gatame
+✓ Juji Gatame
 
 Kesa Gatame Drill
-◦ Hon Kesa Gatame
+✓ Hon Kesa Gatame
 ◦ Makura Kesa Gatame
 ◦ Kuzure Ude Garami
 ◦ Ashi Ude Garami
 ◦ Ashi Ude Gatame
-◦ Kata Gatame
+✓ Kata Gatame
 ◦ Kami Shiho Gatame
 ◦ Ushiro Kesa Gatame
-◦ (Kuzure) Yoko Shiho Gatame
+✓ (Kuzure) Yoko Shiho Gatame
 ◦ Tate Shiho Gatame
 ◦ Return to Kesa Gatame
 
@@ -69,10 +69,10 @@ Attack the Turtle
 ✓ Belt Wrap Butterfly Turn Over
 
 Uke in Your Guard
-◦ Ude Garami
+✓ Ude Garami
 
 Fusegi - Escapes
-◦ Hitchhiker's escape to Juji Gatame
+✓ Hitchhiker's escape to Juji Gatame
 
 Nage No Kata
 ◦ Set 1 as uke
@@ -104,6 +104,21 @@ Additional Learned Techniques
 ✓ Ouchi Gari into Ko Uchi Gari
 ✓ Eri Grip Tai Otoshi
 ✓ Arm Grip Tai Otoshi
+✓ Ippon Seoi Nage with Backstep
+✓ Cross Face Turnover (Variation 4)
+✓ Neck Stack Escape
+✓ De Ashi into Juji Gatame
+✓ Fat Man Roll
+✓ Kata Gatame Triangle Choke
+✓ Ouchi Gari Arm Push and Pull
+✓ Half Guard Hug-the-Leg Escape
+✓ Half Guard Ude Garami
+✓ O Soto Gari
+✓ Scissor Sweep
+✓ Ude Garami from Uke Palm Down
+✓ Kuzure Kami Shiho Gatame
+✓ Kesa Gatame into Kata Gatame
+✓ Kata Gatame into Kuzure Kami Shiho Gatame
 ✓ Harai Goshi
 ✓ Ne Waza Framing
 ✓ Shrimping Escapes
